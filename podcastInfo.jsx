@@ -17,7 +17,7 @@ const PodcastImage = () => {
       setGenres(Array.isArray(data) ? data : []);
     } catch (err) {
       console.error("Error fetching genres, using fallback:", err);
-      const fallbackGenres = [
+      setGenres([
         { id: 1, title: 'Personal Growth' },
         { id: 2, title: 'Investigative Journalism' },
         { id: 3, title: 'History' },
@@ -27,9 +27,7 @@ const PodcastImage = () => {
         { id: 7, title: 'Fiction' },
         { id: 8, title: 'News' },
         { id: 9, title: 'Kids and Family' }
-      ];
-      setGenres(fallbackGenres);
-      
+      ]);
     }
   }, []);
 
@@ -54,6 +52,19 @@ const PodcastImage = () => {
     fetchGenres();
     fetchPodcasts();
   }, [fetchGenres, fetchPodcasts]);
+
+  const addToFavorites = (podcast) => {
+    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    const isFavorite = favorites.find(fav => fav.id === podcast.id);
+
+    if (!isFavorite) {
+      favorites.push(podcast);
+      localStorage.setItem('favorites', JSON.stringify(favorites));
+      alert(`${podcast.title} added to favorites!`);
+    } else {
+      alert(`${podcast.title} is already in favorites.`);
+    }
+  };
 
   const handleSortChange = (event) => setSortOrder(event.target.value);
   const handleGenreChange = (event) => setSelectedGenre(event.target.value);
@@ -95,6 +106,7 @@ const PodcastImage = () => {
                     {post.title} (seasons: {post.seasons})
                   </Link>
                 </h3>
+                <button onClick={() => addToFavorites(post)}>Add to Favorites</button>
                 <Link to={`/podcast/${post.id}`}>
                   <img src={post.image} alt={post.title} style={{ width: '200px', height: 'auto' }} />
                 </Link>
@@ -110,6 +122,7 @@ const PodcastImage = () => {
 };
 
 export default PodcastImage;
+
 
 
 
