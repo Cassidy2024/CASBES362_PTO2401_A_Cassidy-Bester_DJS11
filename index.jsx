@@ -6,6 +6,7 @@ import Header from './Header.jsx';
 import PodcastDetails from './PodcastDetails.jsx';
 import Favorites from './Favorites.jsx';
 import Audio from './audio.jsx';
+import defaultAudio from './default-audio.mp3';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -16,6 +17,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/podcast/:id" element={<PodcastDetails />} />
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/audio" element={<Audio />} />
+        <Route path="/defualt-audio" element={<defaultAudio />} />
+
       </Routes>
     </Router>
   </React.StrictMode>,

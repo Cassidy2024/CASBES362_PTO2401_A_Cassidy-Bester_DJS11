@@ -1,34 +1,30 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import defaultAudio from './default-audio.mp3'; // Importing the default audio
 
 const Audio = () => {
-  // Retrieve episode data from navigation (URL state or params)
   const location = useLocation();
   const episode = location.state?.episode;
-  const navigate = useNavigate(); // Initialize navigate
+  const navigate = useNavigate();
 
-  // Function to handle going back to the PodcastDetails page with confirmation
   const handleClose = () => {
     const confirmClose = window.confirm("Are you sure you want to close this page?");
     if (confirmClose) {
-      navigate(-1); // Takes the user back to the previous page
+      navigate(-1); // Navigate back
     }
   };
-
-  if (!episode) {
-    return <p>No episode data available.</p>;
-  }
 
   return (
     <div>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <h2>Now Playing: {episode.title}</h2>
+        <h2>Now Playing: {episode ? episode.title : "Default Audio"}</h2>
         <button onClick={handleClose} style={{ fontSize: '1.5rem', background: 'none', border: 'none', cursor: 'pointer' }}>
           ×
         </button>
       </div>
-      <p>{episode.description}</p>
-      <audio controls src={episode.audioUrl}>
+      <p>{episode ? episode.description : "Default audio description."}</p>
+      {/* Use default audio for playback */}
+      <audio controls src={defaultAudio}>
         Your browser does not support the audio element.
       </audio>
     </div>
@@ -36,5 +32,8 @@ const Audio = () => {
 };
 
 export default Audio;
+
+
+
 
 
