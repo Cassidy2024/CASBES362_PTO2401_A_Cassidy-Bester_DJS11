@@ -25,8 +25,10 @@ const App = () => {
         <Route path="/" element={<PodcastInfo />} />
         <Route path="/podcast/:id" element={<PodcastDetails showAudioPlayer={showAudioPlayer} />} /> {/* Pass showAudioPlayer */}
         <Route path="/favorites" element={<Favorites />} />
+        <Route path="/audio" element={<Audio onClose={hideAudioPlayer} />} />
+        <Route path="/audio" element={<Audio />} />
       </Routes>
-      {showAudio && <Audio onClose={hideAudioPlayer} />} {/* Conditionally render Audio */}
+      
     </Router>
   );
 };

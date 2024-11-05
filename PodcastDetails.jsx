@@ -6,6 +6,7 @@ const PodcastDetails = ({ showAudioPlayer }) => {
   const [podcast, setPodcast] = useState(null);
   const [loadingDetails, setLoadingDetails] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedEpisode, setSelectedEpisode] = useState(null); // State to track the selected episode
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,6 +30,8 @@ const PodcastDetails = ({ showAudioPlayer }) => {
   }, [id]);
 
   const handleEpisodeClick = (episode) => {
+    setSelectedEpisode(episode); // Set the selected episode in state
+    localStorage.setItem('currentEpisode', JSON.stringify(episode)); // Save episode data in localStorage
     showAudioPlayer(); // Show audio player
     navigate('/audio', { state: { episode } });
   };
@@ -66,6 +69,12 @@ const PodcastDetails = ({ showAudioPlayer }) => {
             ) : (
               <p>No seasons available for this show.</p>
             )}
+            {selectedEpisode && ( // Display selected episode information if available
+              <div>
+                <h4>Currently Selected Episode:</h4>
+                <p><strong>{selectedEpisode.title}</strong>: {selectedEpisode.description}</p>
+              </div>
+            )}
           </div>
         )
       )}
@@ -74,5 +83,8 @@ const PodcastDetails = ({ showAudioPlayer }) => {
 };
 
 export default PodcastDetails;
+
+
+
 
 
