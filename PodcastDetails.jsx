@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 const PodcastDetails = () => {
   const { id } = useParams();
   const [podcast, setPodcast] = useState(null);
   const [loadingDetails, setLoadingDetails] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate(); // Place it here to initialize the navigation function
 
   useEffect(() => {
     const fetchPodcastDetails = async () => {
@@ -26,6 +27,11 @@ const PodcastDetails = () => {
 
     fetchPodcastDetails();
   }, [id]);
+
+  // Handler for navigating to the audio page with episode data
+  const handleEpisodeClick = (episode) => {
+    navigate('/audio', { state: { episode } });
+  };
 
   return (
     <div>
@@ -48,6 +54,7 @@ const PodcastDetails = () => {
                       season.episodes.map((episode) => (
                         <li key={episode.id}>
                           <strong>{episode.title}</strong>: {episode.description}
+                          <button onClick={() => handleEpisodeClick(episode)}>Play Episode</button>
                         </li>
                       ))
                     ) : (
@@ -67,3 +74,4 @@ const PodcastDetails = () => {
 };
 
 export default PodcastDetails;
+
