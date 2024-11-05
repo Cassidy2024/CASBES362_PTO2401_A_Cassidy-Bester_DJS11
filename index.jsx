@@ -17,7 +17,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/podcast/:id" element={<PodcastDetails />} />
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/audio" element={<Audio />} />
-        <Route path="/defualt-audio" element={<defaultAudio />} />
+        
 
       </Routes>
     </Router>
