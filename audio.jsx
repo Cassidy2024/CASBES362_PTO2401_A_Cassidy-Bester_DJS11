@@ -1,14 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
-const Audio = () => {
+const Audio = ({ onClose }) => {
   const location = useLocation();
   const episode = location.state?.episode;
-  const navigate = useNavigate();
   const audioRef = useRef(null);
   const [currentTime, setCurrentTime] = useState(0);
 
-  // Retrieve saved timestamp from localStorage when the component mounts
   useEffect(() => {
     const savedTime = localStorage.getItem(`audio-timestamp-${episode ? episode.id : 'default'}`);
     if (savedTime) {
@@ -16,7 +14,6 @@ const Audio = () => {
     }
   }, [episode]);
 
-  // Set up event listeners to update playback time in localStorage within 10-second intervals
   useEffect(() => {
     const saveTimeInterval = setInterval(() => {
       if (audioRef.current) {
@@ -30,29 +27,24 @@ const Audio = () => {
     return () => clearInterval(saveTimeInterval);
   }, [episode]);
 
-  // Set the audio to start at the saved playback time
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.currentTime = currentTime;
     }
   }, [currentTime]);
 
-  const handleClose = () => {
-    const confirmClose = window.confirm("Are you sure you want to close this page?");
-    if (confirmClose) {
-      navigate(-1); // Navigate back
-    }
-  };
-
   return (
-    <div>
+    <div style={audioContainerStyle}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <h2>Now Playing: {episode ? episode.title : "Default Audio"}</h2>
-        <button onClick={handleClose} style={{ fontSize: '1.5rem', background: 'none', border: 'none', cursor: 'pointer' }}>
+        <h4>Now Playing: {episode ? episode.title : "Default Audio"}</h4>
+        <button
+          onClick={onClose} // Call the onClose function
+          style={{ fontSize: '1.2rem', background: 'none', border: 'none', cursor: 'pointer' }}
+        >
           ×
         </button>
       </div>
-      <p>{episode ? episode.description : "Default audio description."}</p>
+      <p style={{ fontSize: '0.8rem' }}>{episode ? episode.description : "Default audio description."}</p>
       <audio
         ref={audioRef}
         controls
@@ -64,7 +56,22 @@ const Audio = () => {
   );
 };
 
+const audioContainerStyle = {
+  position: 'fixed',
+  bottom: '20px',
+  right: '20px',
+  width: '300px',
+  padding: '15px',
+  backgroundColor: 'rgba(255, 255, 255, 0.9)',
+  boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)',
+  borderRadius: '8px',
+  zIndex: 1000
+};
+
 export default Audio;
+
+
+
 
 
 
