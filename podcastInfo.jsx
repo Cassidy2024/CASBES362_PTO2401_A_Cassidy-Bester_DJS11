@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 
 const PodcastImage = () => {
   const [genres, setGenres] = useState([]);
@@ -6,9 +7,7 @@ const PodcastImage = () => {
   const [error, setError] = useState(null);
   const [sortOrder, setSortOrder] = useState('asc');
   const [selectedGenre, setSelectedGenre] = useState('');
-  const [selectedPodcast, setSelectedPodcast] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [loadingDetails, setLoadingDetails] = useState(false);
 
   const fetchGenres = useCallback(async () => {
     try {
@@ -30,7 +29,7 @@ const PodcastImage = () => {
         { id: 9, title: 'Kids and Family' }
       ];
       setGenres(fallbackGenres);
-      setError('Unable to load genres from API; using default genres.');
+      
     }
   }, []);
 
@@ -63,30 +62,9 @@ const PodcastImage = () => {
     .filter((post) => (selectedGenre ? post.genres.includes(parseInt(selectedGenre)) : true))
     .sort((a, b) => (sortOrder === 'asc' ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title)));
 
-  const fetchPodcastDetails = async (id) => {
-    setLoadingDetails(true);
-    setSelectedPodcast(null);
-    
-    try {
-      const response = await fetch(`https://podcast-api.netlify.app/id/${id}`);
-      if (!response.ok) {
-        throw new Error(`Failed to fetch details for podcast ID ${id}`);
-      }
-      const data = await response.json();
-      setSelectedPodcast(data);
-      setError(null);
-    } catch (err) {
-      console.error("Error fetching podcast details:", err);
-      setError('Failed to fetch show details');
-    } finally {
-      setLoadingDetails(false);
-    }
-  };
-
   return (
     <div>
       <h2>Available Shows:</h2>
-
       <label htmlFor="genreSelect">Filter by Genre: </label>
       <select id="genreSelect" value={selectedGenre} onChange={handleGenreChange}>
         <option value="">All Genres</option>
@@ -111,49 +89,19 @@ const PodcastImage = () => {
         <div>
           {sortedFilteredPosts.length > 0 ? (
             sortedFilteredPosts.map((post) => (
-              <div key={post.id} style={{ cursor: 'pointer', margin: '10px' }}>
-                <h3 onClick={() => fetchPodcastDetails(post.id)}>
-                  {post.title} (seasons: {post.seasons})
+              <div key={post.id} style={{ margin: '10px' }}>
+                <h3>
+                  <Link to={`/podcast/${post.id}`}>
+                    {post.title} (seasons: {post.seasons})
+                  </Link>
                 </h3>
-                <img
-                  src={post.image}
-                  alt={post.title}
-                  style={{ width: '200px', height: 'auto' }}
-                  onClick={() => fetchPodcastDetails(post.id)}
-                />
+                <Link to={`/podcast/${post.id}`}>
+                  <img src={post.image} alt={post.title} style={{ width: '200px', height: 'auto' }} />
+                </Link>
               </div>
             ))
           ) : (
             <p>No shows available.</p>
-          )}
-        </div>
-      )}
-
-      {loadingDetails && <p>Loading show details...</p>}
-      {selectedPodcast && !loadingDetails && (
-        <div style={{ marginTop: '20px', borderTop: '1px solid #ddd', paddingTop: '20px' }}>
-          <h3>{selectedPodcast.title}</h3>
-          <p>{selectedPodcast.description}</p>
-          <h4>Seasons and Episodes:</h4>
-          {selectedPodcast.seasons && selectedPodcast.seasons.length > 0 ? (
-            selectedPodcast.seasons.map((season, index) => (
-              <div key={index}>
-                <h5>Season {index + 1}</h5>
-                <ul>
-                  {season.episodes && season.episodes.length > 0 ? (
-                    season.episodes.map((episode) => (
-                      <li key={episode.id}>
-                        <strong>{episode.title}</strong>: {episode.description}
-                      </li>
-                    ))
-                  ) : (
-                    <p>No episodes available for this season.</p>
-                  )}
-                </ul>
-              </div>
-            ))
-          ) : (
-            <p>No seasons available for this show.</p>
           )}
         </div>
       )}
@@ -162,6 +110,7 @@ const PodcastImage = () => {
 };
 
 export default PodcastImage;
+
 
 
 
