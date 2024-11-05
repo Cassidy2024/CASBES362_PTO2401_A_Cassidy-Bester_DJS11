@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import defaultAudio from './default-audio.mp3'; // Importing the default audio
+//import defaultAudio from './default-audio.mp3'; // Importing the default audio
 
 const Audio = () => {
   const location = useLocation();
@@ -24,7 +24,7 @@ const Audio = () => {
       </div>
       <p>{episode ? episode.description : "Default audio description."}</p>
       {/* Use default audio for playback */}
-      <audio controls src={defaultAudio}>
+      <audio controls src={"https://podcast-api.netlify.app/placeholder-audio.mp3"}>
         Your browser does not support the audio element.
       </audio>
     </div>

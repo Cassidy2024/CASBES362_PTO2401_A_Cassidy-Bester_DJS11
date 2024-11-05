@@ -6,7 +6,7 @@ import Header from './Header.jsx';
 import PodcastDetails from './PodcastDetails.jsx';
 import Favorites from './Favorites.jsx';
 import Audio from './audio.jsx';
-import defaultAudio from './default-audio.mp3';
+
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
