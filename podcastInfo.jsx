@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
+import './index.css'; // Assuming the CSS file is named PodcastImage.css
 
 const PodcastImage = () => {
-  // Manually defined genre list
   const [genres] = useState([
     { id: 1, title: 'Personal Growth' },
     { id: 2, title: 'Investigative Journalism' },
@@ -14,7 +14,7 @@ const PodcastImage = () => {
     { id: 8, title: 'News' },
     { id: 9, title: 'Kids and Family' },
   ]);
-  
+
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState(null);
   const [sortOrder, setSortOrder] = useState('asc');
@@ -118,26 +118,24 @@ const PodcastImage = () => {
       ) : error ? (
         <p style={{ color: 'red' }}>{error}</p>
       ) : (
-        <div>
+        <div className="podcast-grid">
           {sortedFilteredPosts.length > 0 ? (
             sortedFilteredPosts.map((post) => (
-              <div key={post.id} style={{ margin: '20px', border: '1px solid #ddd', padding: '15px', maxWidth: '400px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <h3 style={{ margin: '0' }}>
-                    <Link to={`/podcast/${post.id}`} style={{ textDecoration: 'none', color: '#333' }}>
+              <div key={post.id} className="podcast-card">
+                <div className="podcast-header">
+                  <h3>
+                    <Link to={`/podcast/${post.id}`} className="podcast-title">
                       {post.title}
                     </Link>
                   </h3>
                   {post.updated && (
-                    <span style={{ fontSize: '0.9em', color: '#777' }}>
-                      Last updated: {formatDate(post.updated)}
-                    </span>
+                    <span className="updated-date">Last updated: {formatDate(post.updated)}</span>
                   )}
                 </div>
-                <Link to={`/podcast/${post.id}`}>
-                  <img src={post.image} alt={post.title} style={{ width: '100%', marginTop: '10px', height: 'auto' }} />
+                <Link to={`/podcast/${post.id}`} className="podcast-image-link">
+                  <img src={post.image} alt={post.title} className="podcast-image" />
                 </Link>
-                <button onClick={() => addToFavorites(post)} style={{ marginTop: '10px', padding: '8px 12px', cursor: 'pointer' }}>
+                <button onClick={() => addToFavorites(post)} className="add-to-favorites-button">
                   Add to Favorites
                 </button>
               </div>
@@ -152,6 +150,7 @@ const PodcastImage = () => {
 };
 
 export default PodcastImage;
+
 
 
 
