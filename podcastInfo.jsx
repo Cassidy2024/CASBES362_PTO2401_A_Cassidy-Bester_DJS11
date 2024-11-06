@@ -7,6 +7,7 @@ const PodcastImage = () => {
   const [error, setError] = useState(null);
   const [sortOrder, setSortOrder] = useState('asc');
   const [selectedGenre, setSelectedGenre] = useState('');
+  const [sortByDate, setSortByDate] = useState('none'); // New state for sorting by date
   const [loading, setLoading] = useState(true);
 
   const fetchGenres = useCallback(async () => {
@@ -58,6 +59,7 @@ const PodcastImage = () => {
 
   const handleSortChange = (event) => setSortOrder(event.target.value);
   const handleGenreChange = (event) => setSelectedGenre(event.target.value);
+  const handleDateSortChange = (event) => setSortByDate(event.target.value); // Handler for date sort
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -71,7 +73,15 @@ const PodcastImage = () => {
 
   const sortedFilteredPosts = posts
     .filter((post) => (selectedGenre ? post.genres.includes(parseInt(selectedGenre)) : true))
-    .sort((a, b) => (sortOrder === 'asc' ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title)));
+    .sort((a, b) => {
+      if (sortByDate === 'mostRecent') {
+        return new Date(b.updated) - new Date(a.updated);
+      } else if (sortByDate === 'leastRecent') {
+        return new Date(a.updated) - new Date(b.updated);
+      } else {
+        return sortOrder === 'asc' ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title);
+      }
+    });
 
   return (
     <div>
@@ -86,10 +96,17 @@ const PodcastImage = () => {
         ))}
       </select>
 
-      <label htmlFor="sortOrder">Sort By: </label>
+      <label htmlFor="sortOrder">Sort By Title: </label>
       <select id="sortOrder" value={sortOrder} onChange={handleSortChange}>
         <option value="asc">A to Z</option>
         <option value="desc">Z to A</option>
+      </select>
+
+      <label htmlFor="dateSortOrder">Sort By Date: </label>
+      <select id="dateSortOrder" value={sortByDate} onChange={handleDateSortChange}>
+        <option value="none">None</option>
+        <option value="mostRecent">Most Recent</option>
+        <option value="leastRecent">Least Recent</option>
       </select>
 
       {loading ? (
@@ -131,6 +148,7 @@ const PodcastImage = () => {
 };
 
 export default PodcastImage;
+
 
 
 
