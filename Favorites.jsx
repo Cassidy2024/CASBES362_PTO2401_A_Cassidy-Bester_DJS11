@@ -23,7 +23,8 @@ const Favorites = () => {
         favorites.map((podcast) => (
           <div key={podcast.id} style={{ marginBottom: '20px' }}>
             <h3>{podcast.title}</h3>
-            <p>{podcast.description}</p>
+            <img src={podcast.image} alt={podcast.title} style={{ width: '200px', height: 'auto' }} />
+            <p><strong>Added on:</strong> {podcast.addedOn}</p> {/* Display date and time */}
             <button onClick={() => handleRemoveFavorite(podcast.id)}>Remove from Favorites</button>
           </div>
         ))
@@ -35,6 +36,7 @@ const Favorites = () => {
 };
 
 export default Favorites;
+
 
 
 
