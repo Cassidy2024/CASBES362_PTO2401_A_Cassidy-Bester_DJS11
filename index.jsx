@@ -6,6 +6,7 @@ import Header from './Header.jsx';
 import PodcastDetails from './PodcastDetails.jsx';
 import Favorites from './Favorites.jsx';
 import Audio from './audio.jsx';
+import './index.css';
 
 const App = () => {
   const [showAudio, setShowAudio] = useState(false); // Start with audio hidden
