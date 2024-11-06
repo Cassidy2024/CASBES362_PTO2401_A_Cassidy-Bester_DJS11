@@ -26,6 +26,11 @@ const Header = () => {
       <Link to="/favorites">
           <button>Favorites</button>
         </Link>
+
+        <Link to="/podcastInfo">
+        <button>Main Page</button>
+      </Link>
+
     </header>
   );
 };

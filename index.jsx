@@ -25,6 +25,7 @@ const App = () => {
         <Route path="/" element={<PodcastInfo />} />
         <Route path="/podcast/:id" element={<PodcastDetails showAudioPlayer={showAudioPlayer} />} />
         <Route path="/favorites" element={<Favorites />} />
+        <Route path="/podcastInfo" element={<PodcastInfo />} />
       </Routes>
       {/* Conditionally render Audio component only when showAudio is true */}
       {showAudio && <Audio onClose={hideAudioPlayer} />}
