@@ -9,14 +9,22 @@ const Favorites = () => {
     setFavorites(storedFavorites);
   }, []);
 
+  const handleRemoveFavorite = (id) => {
+    // Filter out the show with the specified ID
+    const updatedFavorites = favorites.filter((podcast) => podcast.id !== id);
+    setFavorites(updatedFavorites);
+    localStorage.setItem('favorites', JSON.stringify(updatedFavorites)); // Update localStorage
+  };
+
   return (
     <div>
       <h2>My Favorite Shows</h2>
       {favorites.length > 0 ? (
         favorites.map((podcast) => (
-          <div key={podcast.id}>
+          <div key={podcast.id} style={{ marginBottom: '20px' }}>
             <h3>{podcast.title}</h3>
             <p>{podcast.description}</p>
+            <button onClick={() => handleRemoveFavorite(podcast.id)}>Remove from Favorites</button>
           </div>
         ))
       ) : (
@@ -27,5 +35,6 @@ const Favorites = () => {
 };
 
 export default Favorites;
+
 
 
