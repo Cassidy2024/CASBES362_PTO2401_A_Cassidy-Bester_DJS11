@@ -23,12 +23,11 @@ const App = () => {
       <Header />
       <Routes>
         <Route path="/" element={<PodcastInfo />} />
-        <Route path="/podcast/:id" element={<PodcastDetails showAudioPlayer={showAudioPlayer} />} /> {/* Pass showAudioPlayer */}
+        <Route path="/podcast/:id" element={<PodcastDetails showAudioPlayer={showAudioPlayer} />} />
         <Route path="/favorites" element={<Favorites />} />
-        <Route path="/audio" element={<Audio onClose={hideAudioPlayer} />} />
-        <Route path="/audio" element={<Audio />} />
       </Routes>
-      
+      {/* Conditionally render Audio component only when showAudio is true */}
+      {showAudio && <Audio onClose={hideAudioPlayer} />}
     </Router>
   );
 };
@@ -38,4 +37,5 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <App />
   </React.StrictMode>
 );
+
 

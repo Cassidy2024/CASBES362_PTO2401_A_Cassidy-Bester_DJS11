@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 
 const Audio = ({ onClose }) => {
   const location = useLocation();
-  const episode = location.state?.episode; // Get episode from location state
+  const episode = location.state?.episode || JSON.parse(localStorage.getItem('currentEpisode')); // Get episode from location state or localStorage
   const audioRef = useRef(null);
   const [currentTime, setCurrentTime] = useState(0);
 
@@ -16,9 +16,11 @@ const Audio = ({ onClose }) => {
   }, [episode]);
 
   useEffect(() => {
-    const savedTime = localStorage.getItem(`audio-timestamp-${episode ? episode.id : 'default'}`);
-    if (savedTime) {
-      setCurrentTime(parseFloat(savedTime));
+    if (episode) {
+      const savedTime = localStorage.getItem(`audio-timestamp-${episode.id}`);
+      if (savedTime) {
+        setCurrentTime(parseFloat(savedTime));
+      }
     }
   }, [episode]);
 
@@ -26,7 +28,7 @@ const Audio = ({ onClose }) => {
     const saveTimeInterval = setInterval(() => {
       if (audioRef.current) {
         localStorage.setItem(
-          `audio-timestamp-${episode ? episode.id : 'default'}`,
+          `audio-timestamp-${episode.id}`,
           audioRef.current.currentTime
         );
       }
@@ -37,40 +39,43 @@ const Audio = ({ onClose }) => {
 
   useEffect(() => {
     if (audioRef.current) {
-      audioRef.current.currentTime = currentTime; // Set the current time of audio
-      audioRef.current.play().catch(error => console.error("Autoplay prevented:", error)); // Attempt to play audio
+      audioRef.current.currentTime = currentTime;
+      audioRef.current.play().catch(error => console.error("Autoplay prevented:", error));
     }
   }, [currentTime]);
 
   const handleCanPlay = () => {
     if (audioRef.current) {
-      audioRef.current.play().catch(error => console.error("Play prevented:", error)); // Play when ready
+      audioRef.current.play().catch(error => console.error("Play prevented:", error));
     }
   };
 
-  return (
+  return episode ? ( // Only render audio player if an episode is selected
     <div style={audioContainerStyle}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <h4>Now Playing: {episode ? episode.title : "No episode selected"}</h4>
+        <h4>Now Playing: {episode.title}</h4>
         <button
-          onClick={onClose}
+          onClick={() => {
+            onClose();
+            localStorage.removeItem('currentEpisode'); // Clear episode data on close
+          }}
           style={{ fontSize: '1.2rem', background: 'none', border: 'none', cursor: 'pointer' }}
         >
           ×
         </button>
       </div>
-      <p style={{ fontSize: '0.8rem' }}>{episode ? episode.description : "No description available."}</p>
+      <p style={{ fontSize: '0.8rem' }}>{episode.description}</p>
       <audio
         ref={audioRef}
         controls
-        src={episode ? episode.file : "https://podcast-api.netlify.app/placeholder-audio.mp3"} // Ensure the audio URL is correct
-        onCanPlay={handleCanPlay} // Call play when it's ready
-        onEnded={() => console.log("Audio playback ended")} // Log when playback ends
+        src={episode.file || "https://podcast-api.netlify.app/placeholder-audio.mp3"} // Set audio URL
+        onCanPlay={handleCanPlay}
+        onEnded={() => console.log("Audio playback ended")}
       >
         Your browser does not support the audio element.
       </audio>
     </div>
-  );
+  ) : null; // Do not render anything if no episode is selected
 };
 
 const audioContainerStyle = {
@@ -86,6 +91,7 @@ const audioContainerStyle = {
 };
 
 export default Audio;
+
 
 
 
