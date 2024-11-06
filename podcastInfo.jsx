@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const PodcastImage = () => {
   const [genres, setGenres] = useState([]);
@@ -17,17 +17,7 @@ const PodcastImage = () => {
       setGenres(Array.isArray(data) ? data : []);
     } catch (err) {
       console.error("Error fetching genres, using fallback:", err);
-      setGenres([
-        { id: 1, title: 'Personal Growth' },
-        { id: 2, title: 'Investigative Journalism' },
-        { id: 3, title: 'History' },
-        { id: 4, title: 'Comedy' },
-        { id: 5, title: 'Entertainment' },
-        { id: 6, title: 'Business' },
-        { id: 7, title: 'Fiction' },
-        { id: 8, title: 'News' },
-        { id: 9, title: 'Kids and Family' }
-      ]);
+      setGenres([/* Fallback genres */]);
     }
   }, []);
 
@@ -69,6 +59,16 @@ const PodcastImage = () => {
   const handleSortChange = (event) => setSortOrder(event.target.value);
   const handleGenreChange = (event) => setSelectedGenre(event.target.value);
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      weekday: 'short',
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    });
+  };
+
   const sortedFilteredPosts = posts
     .filter((post) => (selectedGenre ? post.genres.includes(parseInt(selectedGenre)) : true))
     .sort((a, b) => (sortOrder === 'asc' ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title)));
@@ -100,16 +100,25 @@ const PodcastImage = () => {
         <div>
           {sortedFilteredPosts.length > 0 ? (
             sortedFilteredPosts.map((post) => (
-              <div key={post.id} style={{ margin: '10px' }}>
-                <h3>
-                  <Link to={`/podcast/${post.id}`}>
-                    {post.title} (seasons: {post.seasons})
-                  </Link>
-                </h3>
-                <button onClick={() => addToFavorites(post)}>Add to Favorites</button>
+              <div key={post.id} style={{ margin: '20px', border: '1px solid #ddd', padding: '15px', maxWidth: '400px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <h3 style={{ margin: '0' }}>
+                    <Link to={`/podcast/${post.id}`} style={{ textDecoration: 'none', color: '#333' }}>
+                      {post.title}
+                    </Link>
+                  </h3>
+                  {post.updated && (
+                    <span style={{ fontSize: '0.9em', color: '#777' }}>
+                      Last updated: {formatDate(post.updated)}
+                    </span>
+                  )}
+                </div>
                 <Link to={`/podcast/${post.id}`}>
-                  <img src={post.image} alt={post.title} style={{ width: '200px', height: 'auto' }} />
+                  <img src={post.image} alt={post.title} style={{ width: '100%', marginTop: '10px', height: 'auto' }} />
                 </Link>
+                <button onClick={() => addToFavorites(post)} style={{ marginTop: '10px', padding: '8px 12px', cursor: 'pointer' }}>
+                  Add to Favorites
+                </button>
               </div>
             ))
           ) : (
@@ -122,6 +131,9 @@ const PodcastImage = () => {
 };
 
 export default PodcastImage;
+
+
+
 
 
 
