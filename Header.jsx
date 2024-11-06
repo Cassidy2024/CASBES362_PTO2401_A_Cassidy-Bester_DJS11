@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from './podcast-logo.webp'; // Update path as needed
+import logo from '/public/music.png'; // Update path as needed
 import { Link } from 'react-router-dom';
 
 const Header = () => {
@@ -19,7 +19,7 @@ const Header = () => {
       
       {/* Title and Description */}
       <div>
-        <h1 style={{ margin: '0' }}>Podcast App</h1>
+        <h1 style={{ margin: '0' }}>Let's talk</h1>
         <p style={{ margin: '0', fontSize: '14px' }}>Explore your favorite podcasts by genre and more!</p>
       </div>
 

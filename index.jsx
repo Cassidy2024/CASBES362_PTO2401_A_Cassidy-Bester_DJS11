@@ -7,6 +7,7 @@ import PodcastDetails from './PodcastDetails.jsx';
 import Favorites from './Favorites.jsx';
 import Audio from './audio.jsx';
 import './index.css';
+import Carousel from './Carousel.jsx';
 
 const App = () => {
   const [showAudio, setShowAudio] = useState(false); // Start with audio hidden
@@ -22,6 +23,7 @@ const App = () => {
   return (
     <Router>
       <Header />
+      <Carousel />
       <Routes>
         <Route path="/" element={<PodcastInfo />} />
         <Route path="/podcast/:id" element={<PodcastDetails showAudioPlayer={showAudioPlayer} />} />
