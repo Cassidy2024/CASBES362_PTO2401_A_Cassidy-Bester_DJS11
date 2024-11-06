@@ -6,6 +6,7 @@ const PodcastDetails = ({ showAudioPlayer }) => {
   const [podcast, setPodcast] = useState(null);
   const [loadingDetails, setLoadingDetails] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedSeason, setSelectedSeason] = useState(null); // State to track the selected season
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,6 +34,15 @@ const PodcastDetails = ({ showAudioPlayer }) => {
     showAudioPlayer(episode); // Show audio player with the selected episode
   };
 
+  const handleSeasonClick = (index) => {
+    // Toggle the selected season (expand or collapse)
+    if (selectedSeason === index) {
+      setSelectedSeason(null); // Collapse the season if it's already selected
+    } else {
+      setSelectedSeason(index); // Show episodes for the selected season
+    }
+  };
+
   return (
     <div>
       {loadingDetails ? (
@@ -43,24 +53,35 @@ const PodcastDetails = ({ showAudioPlayer }) => {
         podcast && (
           <div style={{ marginTop: '20px' }}>
             <h3>{podcast.title}</h3>
+            
+            {/* Display podcast preview image */}
+            {podcast.image && <img src={podcast.image} alt={`${podcast.title} Preview`} style={{ width: '100%', maxWidth: '600px', margin: '20px 0' }} />}
+            
             <p>{podcast.description}</p>
             <h4>Seasons and Episodes:</h4>
             {podcast.seasons && podcast.seasons.length > 0 ? (
               podcast.seasons.map((season, index) => (
                 <div key={index}>
-                  <h5>Season {index + 1}</h5>
-                  <ul>
-                    {season.episodes && season.episodes.length > 0 ? (
-                      season.episodes.map((episode) => (
-                        <li key={episode.id}>
-                          <strong>{episode.title}</strong>: {episode.description}
-                          <button onClick={() => handleEpisodeClick(episode)}>Play Episode</button>
-                        </li>
-                      ))
-                    ) : (
-                      <p>No episodes available for this season.</p>
-                    )}
-                  </ul>
+                  <h5 
+                    style={{ cursor: 'pointer', color: 'blue' }} 
+                    onClick={() => handleSeasonClick(index)}
+                  >
+                    Season {index + 1}
+                  </h5>
+                  {selectedSeason === index && ( // Only show episodes for the selected season
+                    <ul>
+                      {season.episodes && season.episodes.length > 0 ? (
+                        season.episodes.map((episode) => (
+                          <li key={episode.id}>
+                            <strong>{episode.title}</strong>: {episode.description}
+                            <button onClick={() => handleEpisodeClick(episode)}>Play Episode</button>
+                          </li>
+                        ))
+                      ) : (
+                        <p>No episodes available for this season.</p>
+                      )}
+                    </ul>
+                  )}
                 </div>
               ))
             ) : (
@@ -74,6 +95,7 @@ const PodcastDetails = ({ showAudioPlayer }) => {
 };
 
 export default PodcastDetails;
+
 
 
 
