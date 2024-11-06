@@ -310,3 +310,9 @@ header .container {
 .season-episodes li {
   margin-bottom: 10px; /* Space between list items (episodes) */
 }
+
+.favorite-item {
+  margin-bottom: 20px; /* Adjust this value to increase/decrease space between shows */
+  padding: 10px; /* Optional: add padding to the container for better spacing */
+  border-bottom: 1px solid #eee; /* Optional: add a border for visual separation */
+}

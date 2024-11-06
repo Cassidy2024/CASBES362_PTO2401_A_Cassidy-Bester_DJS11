@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import './index.css'; 
 
 const Favorites = () => {
   const [favorites, setFavorites] = useState([]);
@@ -71,7 +72,7 @@ const Favorites = () => {
 
       {sortedFavorites.length > 0 ? (
         sortedFavorites.map((podcast) => (
-          <div key={podcast.id} style={{ marginBottom: '20px' }}>
+          <div key={podcast.id} className="favorite-item"> {/* Apply class for spacing */}
             <h3>
               {podcast.title}{' '}
               <span style={{ fontSize: '0.9em', color: '#777' }}>
@@ -93,6 +94,7 @@ const Favorites = () => {
 };
 
 export default Favorites;
+
 
 
 
