@@ -123,6 +123,11 @@ header .container {
     width: 200px;
     height: auto;
   }
+
+  /* Add padding to the left of sort features on large screens */
+  label, select, input {
+    padding-left: 20px; /* Adds left padding */
+  }
 }
 
 /* Medium screens (tablets) */
@@ -276,4 +281,32 @@ header .container {
   .podcast-grid {
     grid-template-columns: 1fr; /* 1 column for small screens */
   }
+}
+
+.podcast-description {
+  margin-bottom: 20px; /* Add space after the description */
+  padding: 10px;
+}
+
+.seasons-heading {
+  margin-top: 20px; /* Space above "Seasons and Episodes" heading */
+  margin-bottom: 20px;
+  padding: 10px;
+}
+
+.season-item {
+  margin-bottom: 15px; /* Space between different seasons */
+  padding: 10px;
+}
+
+.season-title {
+  margin-bottom: 10px; /* Space between season title and episodes */
+}
+
+.season-episodes ul {
+  padding-left: 20px; /* Add padding for list items */
+}
+
+.season-episodes li {
+  margin-bottom: 10px; /* Space between list items (episodes) */
 }
