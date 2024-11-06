@@ -2,28 +2,28 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 
 const PodcastImage = () => {
-  const [genres, setGenres] = useState([]);
+  // Manually defined genre list
+  const [genres] = useState([
+    { id: 1, title: 'Personal Growth' },
+    { id: 2, title: 'Investigative Journalism' },
+    { id: 3, title: 'History' },
+    { id: 4, title: 'Comedy' },
+    { id: 5, title: 'Entertainment' },
+    { id: 6, title: 'Business' },
+    { id: 7, title: 'Fiction' },
+    { id: 8, title: 'News' },
+    { id: 9, title: 'Kids and Family' },
+  ]);
+  
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState(null);
   const [sortOrder, setSortOrder] = useState('asc');
   const [selectedGenre, setSelectedGenre] = useState('');
-  const [sortByDate, setSortByDate] = useState('none'); // New state for sorting by date
+  const [sortByDate, setSortByDate] = useState('none');
   const [loading, setLoading] = useState(true);
-
-  const fetchGenres = useCallback(async () => {
-    try {
-      const response = await fetch('https://podcast-api.netlify.app/genres');
-      if (!response.ok) throw new Error('Failed to fetch genres');
-      const data = await response.json();
-      setGenres(Array.isArray(data) ? data : []);
-    } catch (err) {
-      console.error("Error fetching genres, using fallback:", err);
-      setGenres([/* Fallback genres */]);
-    }
-  }, []);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const fetchPodcasts = useCallback(async () => {
-    setLoading(true);
     try {
       const response = await fetch('https://podcast-api.netlify.app/shows');
       if (!response.ok) throw new Error('Data fetching failed');
@@ -40,15 +40,12 @@ const PodcastImage = () => {
   }, []);
 
   useEffect(() => {
-    fetchGenres();
     fetchPodcasts();
-  }, [fetchGenres, fetchPodcasts]);
+  }, [fetchPodcasts]);
 
   const addToFavorites = (podcast) => {
     const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-    const isFavorite = favorites.find(fav => fav.id === podcast.id);
-
-    if (!isFavorite) {
+    if (!favorites.find(fav => fav.id === podcast.id)) {
       favorites.push(podcast);
       localStorage.setItem('favorites', JSON.stringify(favorites));
       alert(`${podcast.title} added to favorites!`);
@@ -59,7 +56,8 @@ const PodcastImage = () => {
 
   const handleSortChange = (event) => setSortOrder(event.target.value);
   const handleGenreChange = (event) => setSelectedGenre(event.target.value);
-  const handleDateSortChange = (event) => setSortByDate(event.target.value); // Handler for date sort
+  const handleDateSortChange = (event) => setSortByDate(event.target.value);
+  const handleSearchChange = (event) => setSearchTerm(event.target.value.toLowerCase());
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -72,15 +70,12 @@ const PodcastImage = () => {
   };
 
   const sortedFilteredPosts = posts
-    .filter((post) => (selectedGenre ? post.genres.includes(parseInt(selectedGenre)) : true))
+    .filter((post) => selectedGenre ? post.genres.includes(parseInt(selectedGenre)) : true)
+    .filter((post) => post.title.toLowerCase().includes(searchTerm))
     .sort((a, b) => {
-      if (sortByDate === 'mostRecent') {
-        return new Date(b.updated) - new Date(a.updated);
-      } else if (sortByDate === 'leastRecent') {
-        return new Date(a.updated) - new Date(b.updated);
-      } else {
-        return sortOrder === 'asc' ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title);
-      }
+      if (sortByDate === 'mostRecent') return new Date(b.updated) - new Date(a.updated);
+      if (sortByDate === 'leastRecent') return new Date(a.updated) - new Date(b.updated);
+      return sortOrder === 'asc' ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title);
     });
 
   return (
@@ -108,6 +103,15 @@ const PodcastImage = () => {
         <option value="mostRecent">Most Recent</option>
         <option value="leastRecent">Least Recent</option>
       </select>
+
+      <label htmlFor="searchTitle">Filter by Title: </label>
+      <input
+        type="text"
+        id="searchTitle"
+        placeholder="Search by title"
+        value={searchTerm}
+        onChange={handleSearchChange}
+      />
 
       {loading ? (
         <p>Loading shows...</p>
@@ -148,6 +152,9 @@ const PodcastImage = () => {
 };
 
 export default PodcastImage;
+
+
+
 
 
 
