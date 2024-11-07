@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import Carousel from './Carousel'; // Make sure this path is correct for your project
+import Carousel from './Carousel';
 import './index.css';
 
 const PodcastImage = () => {
@@ -17,6 +17,7 @@ const PodcastImage = () => {
   ]);
 
   const [posts, setPosts] = useState([]);
+  const [seasonsData, setSeasonsData] = useState({});
   const [error, setError] = useState(null);
   const [sortOrder, setSortOrder] = useState('asc');
   const [selectedGenre, setSelectedGenre] = useState('');
@@ -24,6 +25,20 @@ const PodcastImage = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
 
+  // Fetch seasons based on show ID
+  const fetchSeasons = async (showId) => {
+    try {
+      const response = await fetch(`https://podcast-api.netlify.app/shows/${showId}/seasons`);
+      if (!response.ok) throw new Error('Seasons data fetch failed');
+      const seasons = await response.json();
+      // Update state with the seasons count for this show ID
+      setSeasonsData((prevData) => ({ ...prevData, [showId]: seasons.length }));
+    } catch (error) {
+      console.error('Error fetching seasons:', error);
+    }
+  };
+
+  // Fetch podcast shows and their associated season data
   const fetchPodcasts = useCallback(async () => {
     try {
       const response = await fetch('https://podcast-api.netlify.app/shows');
@@ -31,8 +46,13 @@ const PodcastImage = () => {
       const data = await response.json();
       setPosts(Array.isArray(data) ? data : []);
       setError(null);
+
+      // Fetch seasons for each podcast show
+      data.forEach((podcast) => {
+        fetchSeasons(podcast.id);
+      });
     } catch (err) {
-      console.error("Error fetching podcasts:", err);
+      console.error('Error fetching podcasts:', err);
       setPosts([]);
       setError('Failed to fetch podcasts');
     } finally {
@@ -51,7 +71,7 @@ const PodcastImage = () => {
     if (podcastAlreadyInFavorites) {
       alert(`${podcast.title} is already in favorites.`);
     } else {
-      const podcastWithDate = { ...podcast, addedOn: new Date().toISOString() }; // Add the addedOn date
+      const podcastWithDate = { ...podcast, addedOn: new Date().toISOString() };
       favorites.push(podcastWithDate);
       localStorage.setItem('favorites', JSON.stringify(favorites));
       alert(`${podcast.title} added to favorites!`);
@@ -82,42 +102,48 @@ const PodcastImage = () => {
       return sortOrder === 'asc' ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title);
     });
 
+  const getGenreTitle = (genreId) => {
+    const genre = genres.find((genre) => genre.id === genreId);
+    return genre ? genre.title : 'Unknown Genre';
+  };
+
   return (
     <div>
       <h2>Available Shows:</h2>
       <div className="sort-filters">
-      <label htmlFor="genreSelect">Filter by Genre: </label>
-      <select id="genreSelect" value={selectedGenre} onChange={handleGenreChange}>
-        <option value="">All Genres</option>
-        {genres.map((genre) => (
-          <option key={genre.id} value={genre.id}>
-            {genre.title}
-          </option>
-        ))}
-      </select>
+        <label htmlFor="genreSelect">Filter by Genre: </label>
+        <select id="genreSelect" value={selectedGenre} onChange={handleGenreChange}>
+          <option value="">All Genres</option>
+          {genres.map((genre) => (
+            <option key={genre.id} value={genre.id}>
+              {genre.title}
+            </option>
+          ))}
+        </select>
 
-      <label htmlFor="sortOrder">Sort By Title: </label>
-      <select id="sortOrder" value={sortOrder} onChange={handleSortChange}>
-        <option value="asc">A to Z</option>
-        <option value="desc">Z to A</option>
-      </select>
+        <label htmlFor="sortOrder">Sort By Title: </label>
+        <select id="sortOrder" value={sortOrder} onChange={handleSortChange}>
+          <option value="asc">A to Z</option>
+          <option value="desc">Z to A</option>
+        </select>
 
-      <label htmlFor="dateSortOrder">Sort By Date: </label>
-      <select id="dateSortOrder" value={sortByDate} onChange={handleDateSortChange}>
-        <option value="none">None</option>
-        <option value="mostRecent">Most Recent</option>
-        <option value="leastRecent">Least Recent</option>
-      </select>
+        <label htmlFor="dateSortOrder">Sort By Date: </label>
+        <select id="dateSortOrder" value={sortByDate} onChange={handleDateSortChange}>
+          <option value="none">None</option>
+          <option value="mostRecent">Most Recent</option>
+          <option value="leastRecent">Least Recent</option>
+        </select>
 
-      <label htmlFor="searchTitle">Filter by Title: </label>
-      <input
-        type="text"
-        id="searchTitle"
-        placeholder="Search by title"
-        value={searchTerm}
-        onChange={handleSearchChange}
-      />
-    </div>
+        <label htmlFor="searchTitle">Filter by Title: </label>
+        <input
+          type="text"
+          id="searchTitle"
+          placeholder="Search by title"
+          value={searchTerm}
+          onChange={handleSearchChange}
+        />
+      </div>
+
       {loading ? (
         <p>Loading shows...</p>
       ) : error ? (
@@ -141,6 +167,14 @@ const PodcastImage = () => {
                       <span className="updated-date">Last updated: {formatDate(post.updated)}</span>
                     )}
                   </div>
+
+                  {/* Genre subtitle added here */}
+                  <div className="podcast-genre">
+                    <strong>Genre: </strong>{getGenreTitle(post.genres[0])} {/* Assuming a single genre per post */}
+                  </div>
+
+                 
+
                   <Link to={`/podcast/${post.id}`} className="podcast-image-link">
                     <img src={post.image} alt={post.title} className="podcast-image" />
                   </Link>
@@ -150,7 +184,7 @@ const PodcastImage = () => {
                 </div>
               ))
             ) : (
-              <p>No shows available.</p>
+              <p>No shows found.</p>
             )}
           </div>
         </>
@@ -160,6 +194,11 @@ const PodcastImage = () => {
 };
 
 export default PodcastImage;
+
+
+
+
+
 
 
 
