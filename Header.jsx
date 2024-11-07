@@ -31,6 +31,11 @@ const Header = () => {
         <button>Main Page</button>
       </Link>
 
+       {/* Link to Favorite Episodes page */}
+       <Link to="/favorite-episodes">
+        <button>Favorite Episodes</button>
+      </Link>
+
     </header>
   );
 };
