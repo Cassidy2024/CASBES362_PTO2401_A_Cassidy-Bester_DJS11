@@ -5,14 +5,15 @@ const FavoriteEpisodes = () => {
   const [favoriteEpisodes, setFavoriteEpisodes] = useState([]);
 
   useEffect(() => {
+    // Read favorite episodes from localStorage when the component mounts or reloads
     const savedEpisodes = JSON.parse(localStorage.getItem('favoriteEpisodes')) || [];
     setFavoriteEpisodes(savedEpisodes);
-  }, []);
+  }, []); // Empty dependency array ensures it runs only on mount
 
   const handleRemoveFavorite = (episodeId) => {
     const updatedFavorites = favoriteEpisodes.filter(episode => episode.id !== episodeId);
-    localStorage.setItem('favoriteEpisodes', JSON.stringify(updatedFavorites));
-    setFavoriteEpisodes(updatedFavorites);
+    localStorage.setItem('favoriteEpisodes', JSON.stringify(updatedFavorites)); // Update localStorage
+    setFavoriteEpisodes(updatedFavorites); // Update state
   };
 
   return (
@@ -39,4 +40,5 @@ const FavoriteEpisodes = () => {
 };
 
 export default FavoriteEpisodes;
+
 

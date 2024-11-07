@@ -51,6 +51,9 @@ const PodcastDetails = ({ showAudioPlayer }) => {
 
       favoriteEpisodes.push(episodeWithDetails);
       localStorage.setItem('favoriteEpisodes', JSON.stringify(favoriteEpisodes));
+
+      // Check localStorage to confirm that episodes are being saved correctly
+      console.log("Updated favoriteEpisodes in localStorage:", JSON.parse(localStorage.getItem('favoriteEpisodes')));
       alert(`Episode "${episode.title}" saved to favorites!`);
     } else {
       alert(`Episode "${episode.title}" is already in favorites.`);
@@ -133,6 +136,7 @@ const PodcastDetails = ({ showAudioPlayer }) => {
 };
 
 export default PodcastDetails;
+
 
 
 
