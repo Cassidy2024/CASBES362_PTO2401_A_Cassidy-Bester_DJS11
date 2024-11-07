@@ -451,3 +451,119 @@ header .container {
 .remove-btn:hover {
   background-color: #ff2c2c;
 }
+
+/* Container for the entire podcast details */
+.podcast-details-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.podcast-image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Vertically center the image */
+  margin: 20px 0;
+  width: 100%; /* Allow the container to take the full width */
+  max-width: 800px; /* Increase max-width to give more space */
+  height: 500px; /* Set a specific height for the container */
+  background-color: white; /* Set background color to white */
+  padding: 20px; /* Add padding if needed */
+  border-radius: 8px; /* Optional: for rounded corners */
+  overflow: hidden; /* Prevent overflow if the image is too large */
+}
+
+.podcast-image {
+  width: 100%;
+  height: 100%; /* Ensure the image fills the container's height */
+  object-fit: contain; /* Maintain aspect ratio without stretching */
+  border-radius: 8px; /* Optional: for rounded corners */
+}
+
+
+
+
+/* Other styles */
+.podcast-content {
+  text-align: center;
+  max-width: 800px;
+}
+
+.podcast-title {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+
+.podcast-description {
+  margin-bottom: 20px;
+  font-size: 1rem;
+}
+
+.seasons-heading {
+  font-size: 1.5rem;
+  margin-top: 30px;
+}
+
+.season-item {
+  margin: 20px 0;
+  text-align: left;
+}
+
+.season-title {
+  cursor: pointer;
+  color: blue;
+  font-weight: bold;
+}
+
+.season-episodes {
+  margin-top: 10px;
+}
+
+/* Container for each episode */
+.season-episodes ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.season-episodes li {
+  border: 1px solid #ccc; /* Border around each episode */
+  padding: 15px 15px 50px 15px; /* Increased bottom padding (from 40px to 50px) */
+  margin: 15px 0; /* Spacing between episodes */
+  border-radius: 8px; /* Optional: rounded corners */
+  background-color: #f9f9f9; /* Light background color */
+  position: relative; /* To position the button relative to the episode box */
+  transition: background-color 0.3s ease; /* Smooth transition on hover */
+}
+
+.season-episodes li:hover {
+  background-color: #eaeaea; /* Change background color on hover */
+}
+
+/* Styling the episode title and description */
+.season-episodes li strong {
+  font-size: 1.1rem;
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* Position the button at the bottom right of the episode box */
+.season-episodes li button {
+  padding: 8px 16px;
+  background-color: pink; /* Blue background for the button */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  position: absolute; /* Position the button absolutely within the li */
+  bottom: 10px; /* 10px from the bottom of the container */
+  right: 10px; /* 10px from the right of the container */
+  transition: background-color 0.3s ease; /* Smooth transition on hover */
+}
+
+.season-episodes li button:hover {
+  background-color: darkmagenta; /* Darker blue when hovering over the button */
+}
+
+
+

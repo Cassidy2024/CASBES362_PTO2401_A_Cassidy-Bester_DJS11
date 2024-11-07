@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import './index.css';
 
 const PodcastDetails = ({ showAudioPlayer }) => {
   const { id } = useParams();
@@ -44,32 +45,35 @@ const PodcastDetails = ({ showAudioPlayer }) => {
   };
 
   return (
-    <div>
+    <div className="podcast-details-container">
       {loadingDetails ? (
         <p>Loading show details...</p>
       ) : error ? (
         <p style={{ color: 'red' }}>{error}</p>
       ) : (
         podcast && (
-          <div style={{ marginTop: '20px' }}>
-            <h3>{podcast.title}</h3>
+          <div className="podcast-content">
+            <h3 className="podcast-title">{podcast.title}</h3>
             
             {/* Display podcast preview image */}
-            {podcast.image && <img src={podcast.image} alt={`${podcast.title} Preview`} style={{ width: '100%', maxWidth: '600px', margin: '20px 0' }} />}
+            {podcast.image && (
+              <div className="podcast-image-container">
+                <img src={podcast.image} alt={`${podcast.title} Preview`} className="podcast-image" />
+              </div>
+            )}
             
-            <p className="podcast-description">{podcast.description}</p> {/* Apply class for spacing */}
-            <h4 className="seasons-heading">Seasons and Episodes:</h4> {/* Apply class for spacing */}
+            <p className="podcast-description">{podcast.description}</p>
+            <h4 className="seasons-heading">Seasons and Episodes:</h4>
             {podcast.seasons && podcast.seasons.length > 0 ? (
               podcast.seasons.map((season, index) => (
-                <div key={index} className="season-item"> {/* Apply class for spacing */}
+                <div key={index} className="season-item">
                   <h5 
-                    className="season-title" // Apply class for spacing
-                    style={{ cursor: 'pointer', color: 'blue' }} 
+                    className="season-title" 
                     onClick={() => handleSeasonClick(index)}
                   >
                     Season {index + 1}
                   </h5>
-                  {selectedSeason === index && ( // Only show episodes for the selected season
+                  {selectedSeason === index && (
                     <div className="season-episodes">
                       <ul>
                         {season.episodes && season.episodes.length > 0 ? (
@@ -95,7 +99,7 @@ const PodcastDetails = ({ showAudioPlayer }) => {
       )}
     </div>
   );
-};
+} 
 
 export default PodcastDetails;
 
