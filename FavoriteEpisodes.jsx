@@ -1,19 +1,28 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Audio from './audio';
 import './index.css';
 
 const FavoriteEpisodes = () => {
   const [favoriteEpisodes, setFavoriteEpisodes] = useState([]);
+  const [selectedEpisode, setSelectedEpisode] = useState(null); 
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     // Read favorite episodes from localStorage when the component mounts or reloads
     const savedEpisodes = JSON.parse(localStorage.getItem('favoriteEpisodes')) || [];
     setFavoriteEpisodes(savedEpisodes);
-  }, []); // Empty dependency array ensures it runs only on mount
+  }, []);
 
   const handleRemoveFavorite = (episodeId) => {
     const updatedFavorites = favoriteEpisodes.filter(episode => episode.id !== episodeId);
-    localStorage.setItem('favoriteEpisodes', JSON.stringify(updatedFavorites)); // Update localStorage
-    setFavoriteEpisodes(updatedFavorites); // Update state
+    localStorage.setItem('favoriteEpisodes', JSON.stringify(updatedFavorites)); 
+    setFavoriteEpisodes(updatedFavorites); 
+  };
+
+  const handlePlayEpisode = (episode) => {
+    console.log(episode);  // Log episode data to verify if audioUrl is available
+    setSelectedEpisode(episode);
   };
 
   return (
@@ -28,6 +37,7 @@ const FavoriteEpisodes = () => {
                 <p><em>Show:</em> {episode.showTitle}</p>
                 <p><em>Season:</em> {episode.seasonNumber}</p>
               </div>
+              <button onClick={() => handlePlayEpisode(episode)}>Play Episode</button>
               <button onClick={() => handleRemoveFavorite(episode.id)}>Remove from Favorites</button>
             </li>
           ))}
@@ -35,10 +45,18 @@ const FavoriteEpisodes = () => {
       ) : (
         <p>No favorite episodes saved.</p>
       )}
+
+      {/* Render the Audio player when an episode is selected */}
+      {selectedEpisode && (
+        <Audio episode={selectedEpisode} onClose={() => setSelectedEpisode(null)} />
+      )}
     </div>
   );
 };
 
 export default FavoriteEpisodes;
+
+
+
 
 
