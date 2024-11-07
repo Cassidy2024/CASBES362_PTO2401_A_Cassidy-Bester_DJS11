@@ -4,11 +4,10 @@ import './index.css';
 
 const Favorites = () => {
   const [favorites, setFavorites] = useState([]);
-  const [sortOrder, setSortOrder] = useState('asc'); // State for sorting by title
-  const [sortByDate, setSortByDate] = useState('none'); // State for sorting by date
+  const [sortOrder, setSortOrder] = useState('asc'); 
+  const [sortByDate, setSortByDate] = useState('none');
 
   useEffect(() => {
-    // Get favorites from localStorage
     const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
     setFavorites(storedFavorites);
   }, []);
@@ -17,14 +16,6 @@ const Favorites = () => {
     const updatedFavorites = favorites.filter((podcast) => podcast.id !== id);
     setFavorites(updatedFavorites);
     localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
-  };
-
-  const handleTitleSortChange = (event) => {
-    setSortOrder(event.target.value);
-  };
-
-  const handleDateSortChange = (event) => {
-    setSortByDate(event.target.value);
   };
 
   const formatDate = (dateString) => {
@@ -40,69 +31,64 @@ const Favorites = () => {
     });
   };
 
-  const sortedFavorites = [...favorites]
-    .sort((a, b) => {
-      if (sortByDate === 'mostRecent') {
-        return new Date(b.updated) - new Date(a.updated); // Most recent first
-      } else if (sortByDate === 'leastRecent') {
-        return new Date(a.updated) - new Date(b.updated); // Least recent first
-      } else {
-        // Sorting by title if no date sorting is applied
-        return sortOrder === 'asc'
-          ? a.title.localeCompare(b.title)
-          : b.title.localeCompare(a.title);
-      }
-    });
+  const sortedFavorites = [...favorites].sort((a, b) => {
+    if (sortByDate === 'mostRecent') return new Date(b.updated) - new Date(a.updated);
+    if (sortByDate === 'leastRecent') return new Date(a.updated) - new Date(b.updated);
+    return sortOrder === 'asc' ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title);
+  });
 
   return (
-    <div>
+    <div className="favorites-container">
       <h2>My Favorite Shows</h2>
 
-      {/* Sort by Title Dropdown */}
       <label htmlFor="sortOrder">Sort by Title: </label>
-      <select id="sortOrder" value={sortOrder} onChange={handleTitleSortChange}>
+      <select id="sortOrder" value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
         <option value="asc">A to Z</option>
         <option value="desc">Z to A</option>
       </select>
 
-      {/* Sort by Date Dropdown */}
       <label htmlFor="dateSortOrder">Sort by Date: </label>
-      <select id="dateSortOrder" value={sortByDate} onChange={handleDateSortChange}>
+      <select id="dateSortOrder" value={sortByDate} onChange={(e) => setSortByDate(e.target.value)}>
         <option value="none">None</option>
         <option value="mostRecent">Most Recent</option>
         <option value="leastRecent">Least Recent</option>
       </select>
 
-      {sortedFavorites.length > 0 ? (
-        sortedFavorites.map((podcast) => (
-          <div key={podcast.id} className="favorite-item"> {/* Apply class for spacing */}
-            <h3>
-              {podcast.title}{' '}
-              <span style={{ fontSize: '0.9em', color: '#777' }}>
-                (Last updated: {podcast.updated ? formatDate(podcast.updated) : 'N/A'})
-              </span>
-            </h3>
+      <div className="favorites-list">
+        {sortedFavorites.length > 0 ? (
+          sortedFavorites.map((podcast) => (
+            <div key={podcast.id} className="favorite-item">
+              <h3>
+                {podcast.title}{' '}
+                <span className="updated-date">
+                  (Last updated: {podcast.updated ? formatDate(podcast.updated) : 'N/A'})
+                </span>
+              </h3>
 
-            <Link to={`/podcast/${podcast.id}`}>
-              <img src={podcast.image} alt={podcast.title} style={{ cursor: 'pointer', width: '200px', height: 'auto' }} />
-            </Link>
+              <Link to={`/podcast/${podcast.id}`}>
+                <img src={podcast.image} alt={podcast.title} className="podcast-image" />
+              </Link>
 
-            {/* Display the 'Added On' date under the image */}
-            <p style={{ textAlign: 'center', fontSize: '0.9em', color: '#555' }}>
-              <strong>Added on:</strong> {podcast.addedOn ? formatDate(podcast.addedOn) : 'N/A'}
-            </p>
+              <p className="added-on">
+                <strong>Added on:</strong> {podcast.addedOn ? formatDate(podcast.addedOn) : 'N/A'}
+              </p>
 
-            <button onClick={() => handleRemoveFavorite(podcast.id)}>Remove from Favorites</button>
-          </div>
-        ))
-      ) : (
-        <p>No favorites yet. Add some!</p>
-      )}
+              <button onClick={() => handleRemoveFavorite(podcast.id)} className="remove-btn">
+                Remove from Favorites
+              </button>
+            </div>
+          ))
+        ) : (
+          <p>No favorites yet. Add some!</p>
+        )}
+      </div>
     </div>
   );
 };
 
 export default Favorites;
+
+
 
 
 

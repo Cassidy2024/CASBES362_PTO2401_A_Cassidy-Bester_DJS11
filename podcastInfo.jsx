@@ -85,6 +85,7 @@ const PodcastImage = () => {
   return (
     <div>
       <h2>Available Shows:</h2>
+      <div className="sort-filters">
       <label htmlFor="genreSelect">Filter by Genre: </label>
       <select id="genreSelect" value={selectedGenre} onChange={handleGenreChange}>
         <option value="">All Genres</option>
@@ -116,7 +117,7 @@ const PodcastImage = () => {
         value={searchTerm}
         onChange={handleSearchChange}
       />
-
+    </div>
       {loading ? (
         <p>Loading shows...</p>
       ) : error ? (
