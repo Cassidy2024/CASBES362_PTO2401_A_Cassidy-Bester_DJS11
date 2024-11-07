@@ -7,7 +7,7 @@ const PodcastDetails = ({ showAudioPlayer }) => {
   const [podcast, setPodcast] = useState(null);
   const [loadingDetails, setLoadingDetails] = useState(true);
   const [error, setError] = useState(null);
-  const [selectedSeason, setSelectedSeason] = useState(null); // State to track the selected season
+  const [selectedSeason, setSelectedSeason] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,6 +33,26 @@ const PodcastDetails = ({ showAudioPlayer }) => {
   const handleEpisodeClick = (episode) => {
     localStorage.setItem('currentEpisode', JSON.stringify(episode)); // Save episode data in localStorage
     showAudioPlayer(episode); // Show audio player with the selected episode
+  };
+
+  const handleSaveEpisode = (episode) => {
+    // Get favorite episodes from localStorage, if any
+    const favoriteEpisodes = JSON.parse(localStorage.getItem('favoriteEpisodes')) || [];
+    
+    // Check if episode is already in favorites
+    const isEpisodeInFavorites = favoriteEpisodes.some(fav => fav.id === episode.id);
+    
+    if (!isEpisodeInFavorites) {
+      // Add episode to favorites
+      favoriteEpisodes.push(episode);
+      localStorage.setItem('favoriteEpisodes', JSON.stringify(favoriteEpisodes));
+      alert(`Episode "${episode.title}" saved to favorites!`);
+    } else {
+      alert(`Episode "${episode.title}" is already in favorites.`);
+    }
+
+    // Navigate to the FavoriteEpisodes page
+    navigate('/favorite-episodes');
   };
 
   const handleSeasonClick = (index) => {
@@ -80,7 +100,22 @@ const PodcastDetails = ({ showAudioPlayer }) => {
                           season.episodes.map((episode) => (
                             <li key={episode.id}>
                               <strong>{episode.title}</strong>: {episode.description}
-                              <button onClick={() => handleEpisodeClick(episode)}>Play Episode</button>
+                              
+                              {/* Play Episode button */}
+                              <button 
+                                className="play-episode-button" 
+                                onClick={() => handleEpisodeClick(episode)}
+                              >
+                                Play Episode
+                              </button>
+
+                              {/* Save Episode button */}
+                              <button 
+                                className="save-episode-button" 
+                                onClick={() => handleSaveEpisode(episode)}
+                              >
+                                Save Episode
+                              </button>
                             </li>
                           ))
                         ) : (
@@ -99,9 +134,12 @@ const PodcastDetails = ({ showAudioPlayer }) => {
       )}
     </div>
   );
-} 
+};
 
 export default PodcastDetails;
+
+
+
 
 
 

@@ -8,6 +8,7 @@ import Favorites from './Favorites.jsx';
 import Audio from './audio.jsx';
 import './index.css';
 import Carousel from './Carousel.jsx';
+import FavoriteEpisodes from './FavoriteEpisodes';
 
 const App = () => {
   const [showAudio, setShowAudio] = useState(false); // Start with audio hidden
@@ -29,6 +30,7 @@ const App = () => {
         <Route path="/podcast/:id" element={<PodcastDetails showAudioPlayer={showAudioPlayer} />} />
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/podcastInfo" element={<PodcastInfo />} />
+        <Route path="/favorite-episodes" element={<FavoriteEpisodes />} />
       </Routes>
       {/* Conditionally render Audio component only when showAudio is true */}
       {showAudio && <Audio onClose={hideAudioPlayer} />}
