@@ -566,4 +566,38 @@ header .container {
 }
 
 
+.favorites-container {
+  padding: 20px;
+}
+
+.favorites-container label {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.favorites-container select {
+  padding: 5px;
+  margin-right: 15px;
+}
+
+/* Make sure the sorting filters display on the same line for larger screens */
+.favorites-container select {
+  display: inline-block;
+}
+
+/* Media query for small screens */
+@media (max-width: 600px) {
+  /* Stack the filters vertically on small screens */
+  .favorites-container select {
+    display: block;
+    width: 100%; /* Make the select elements full width */
+    margin-bottom: 10px; /* Add spacing between them */
+  }
+
+  .favorites-container label {
+    display: block; /* Make the labels display above the selects */
+    margin-bottom: 5px; /* Add spacing between label and select */
+  }
+}
+
 
