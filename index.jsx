@@ -28,7 +28,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<PodcastInfo />} />
         <Route path="/podcast/:id" element={<PodcastDetails showAudioPlayer={showAudioPlayer} />} />
-        <Route path="/favorite-episodes" element={<FavoriteEpisodes />} />
+        <Route path="/favorites" element={<Favorites />} />
         <Route path="/podcastInfo" element={<PodcastInfo />} />
         <Route path="/favorite-episodes" element={<FavoriteEpisodes />} />
       </Routes>
