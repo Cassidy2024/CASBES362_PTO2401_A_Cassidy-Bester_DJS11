@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import './index.css'; // Assuming the CSS file is named PodcastImage.css
+import Carousel from './Carousel'; // Make sure this path is correct for your project
+import './index.css';
 
 const PodcastImage = () => {
   const [genres] = useState([
@@ -118,38 +119,44 @@ const PodcastImage = () => {
       ) : error ? (
         <p style={{ color: 'red' }}>{error}</p>
       ) : (
-        <div className="podcast-grid">
-          {sortedFilteredPosts.length > 0 ? (
-            sortedFilteredPosts.map((post) => (
-              <div key={post.id} className="podcast-card">
-                <div className="podcast-header">
-                  <h3>
-                    <Link to={`/podcast/${post.id}`} className="podcast-title">
-                      {post.title}
-                    </Link>
-                  </h3>
-                  {post.updated && (
-                    <span className="updated-date">Last updated: {formatDate(post.updated)}</span>
-                  )}
+        <>
+          {/* Pass the sortedFilteredPosts to Carousel */}
+          <Carousel shows={sortedFilteredPosts} />
+
+          <div className="podcast-grid">
+            {sortedFilteredPosts.length > 0 ? (
+              sortedFilteredPosts.map((post) => (
+                <div key={post.id} className="podcast-card">
+                  <div className="podcast-header">
+                    <h3>
+                      <Link to={`/podcast/${post.id}`} className="podcast-title">
+                        {post.title}
+                      </Link>
+                    </h3>
+                    {post.updated && (
+                      <span className="updated-date">Last updated: {formatDate(post.updated)}</span>
+                    )}
+                  </div>
+                  <Link to={`/podcast/${post.id}`} className="podcast-image-link">
+                    <img src={post.image} alt={post.title} className="podcast-image" />
+                  </Link>
+                  <button onClick={() => addToFavorites(post)} className="add-to-favorites-button">
+                    Add to Favorites
+                  </button>
                 </div>
-                <Link to={`/podcast/${post.id}`} className="podcast-image-link">
-                  <img src={post.image} alt={post.title} className="podcast-image" />
-                </Link>
-                <button onClick={() => addToFavorites(post)} className="add-to-favorites-button">
-                  Add to Favorites
-                </button>
-              </div>
-            ))
-          ) : (
-            <p>No shows available.</p>
-          )}
-        </div>
+              ))
+            ) : (
+              <p>No shows available.</p>
+            )}
+          </div>
+        </>
       )}
     </div>
   );
 };
 
 export default PodcastImage;
+
 
 
 

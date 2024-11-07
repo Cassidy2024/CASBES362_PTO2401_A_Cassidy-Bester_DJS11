@@ -1,42 +1,56 @@
 import React, { useState } from 'react';
-import './index.css'; // Make sure to import your CSS for the carousel
+import './index.css';
 
 const Carousel = ({ shows }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [history, setHistory] = useState([]);
+
+  const getRandomIndex = () => Math.floor(Math.random() * shows.length);
 
   const handleNext = () => {
-    if (currentIndex < shows.length - 1) {
-      setCurrentIndex(currentIndex + 1);
-    } else {
-      setCurrentIndex(0); // Loop back to the first show
-    }
+    let randomIndex;
+    do {
+      randomIndex = getRandomIndex();
+    } while (randomIndex === currentIndex && shows.length > 1);
+    
+    setHistory((prevHistory) => [...prevHistory, currentIndex]);
+    setCurrentIndex(randomIndex);
   };
 
   const handlePrev = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex(currentIndex - 1);
+    if (history.length > 0) {
+      const previousIndex = history[history.length - 1];
+      setHistory((prevHistory) => prevHistory.slice(0, -1));
+      setCurrentIndex(previousIndex);
     } else {
-      setCurrentIndex(shows.length - 1); // Loop back to the last show
+      setCurrentIndex(shows.length - 1);
     }
   };
 
   return (
-    <div className="carousel-container">
-      <button onClick={handlePrev} className="carousel-button prev">Prev</button>
-      <div className="carousel-slider">
-        {shows && shows.length > 0 ? (
-          <div className="carousel-item">
-            <h3>{shows[currentIndex].title}</h3>
-            <img src={shows[currentIndex].image} alt={shows[currentIndex].title} />
-            <p>{shows[currentIndex].description}</p>
-          </div>
-        ) : (
-          <p>No shows available</p>
-        )}
+    <div className="carousel-wrapper">
+      <h2>Shows you may like</h2>
+      <div className="carousel-container">
+        <button onClick={handlePrev} className="carousel-button prev">Prev</button>
+        <button onClick={handleNext} className="carousel-button next">Next</button>
+        <div className="carousel-slider">
+          {shows && shows.length > 0 ? (
+            <div className="carousel-item">
+              <h3>{shows[currentIndex].title}</h3>
+              <img src={shows[currentIndex].image} alt={shows[currentIndex].title} />
+            </div>
+          ) : (
+            <p>No shows available</p>
+          )}
+        </div>
       </div>
-      <button onClick={handleNext} className="carousel-button next">Next</button>
     </div>
   );
 };
 
 export default Carousel;
+
+
+
+
+

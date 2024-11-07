@@ -316,3 +316,64 @@ header .container {
   padding: 10px; /* Optional: add padding to the container for better spacing */
   border-bottom: 1px solid #eee; /* Optional: add a border for visual separation */
 }
+
+
+.carousel-wrapper {
+  border: 2px solid #ccc;
+  padding: 20px;
+  max-width: 600px;
+  margin: auto;
+  text-align: center;
+  border-radius: 8px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+.carousel-wrapper h2 {
+  margin-bottom: 20px;
+  font-size: 1.5em;
+  color: #333;
+}
+
+.carousel-container {
+  position: relative;
+}
+
+.carousel-slider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-item h3 {
+  margin: 10px 0;
+}
+
+.carousel-item img {
+  max-width: 100%;
+  border-radius: 8px;
+}
+
+.carousel-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #333;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.carousel-button.prev {
+  left: 10px;
+}
+
+.carousel-button.next {
+  right: 10px;
+}
+
+.carousel-button:hover {
+  background-color: #555;
+}

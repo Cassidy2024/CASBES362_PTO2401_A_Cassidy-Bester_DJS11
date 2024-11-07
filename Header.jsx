@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '/public/music.png'; // Update path as needed
+import logo from './music.png'; // Update path as needed
 import { Link } from 'react-router-dom';
 
 const Header = () => {

@@ -23,7 +23,7 @@ const App = () => {
   return (
     <Router>
       <Header />
-      <Carousel />
+      
       <Routes>
         <Route path="/" element={<PodcastInfo />} />
         <Route path="/podcast/:id" element={<PodcastDetails showAudioPlayer={showAudioPlayer} />} />
