@@ -46,12 +46,15 @@ const PodcastImage = () => {
 
   const addToFavorites = (podcast) => {
     const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-    if (!favorites.find(fav => fav.id === podcast.id)) {
-      favorites.push(podcast);
+    const podcastAlreadyInFavorites = favorites.find(fav => fav.id === podcast.id);
+
+    if (podcastAlreadyInFavorites) {
+      alert(`${podcast.title} is already in favorites.`);
+    } else {
+      const podcastWithDate = { ...podcast, addedOn: new Date().toISOString() }; // Add the addedOn date
+      favorites.push(podcastWithDate);
       localStorage.setItem('favorites', JSON.stringify(favorites));
       alert(`${podcast.title} added to favorites!`);
-    } else {
-      alert(`${podcast.title} is already in favorites.`);
     }
   };
 
@@ -156,6 +159,8 @@ const PodcastImage = () => {
 };
 
 export default PodcastImage;
+
+
 
 
 

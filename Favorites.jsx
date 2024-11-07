@@ -34,6 +34,9 @@ const Favorites = () => {
       year: 'numeric',
       month: 'short',
       day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
     });
   };
 
@@ -79,10 +82,16 @@ const Favorites = () => {
                 (Last updated: {podcast.updated ? formatDate(podcast.updated) : 'N/A'})
               </span>
             </h3>
+
             <Link to={`/podcast/${podcast.id}`}>
               <img src={podcast.image} alt={podcast.title} style={{ cursor: 'pointer', width: '200px', height: 'auto' }} />
             </Link>
-            <p><strong>Added on:</strong> {podcast.dateAdded}</p>
+
+            {/* Display the 'Added On' date under the image */}
+            <p style={{ textAlign: 'center', fontSize: '0.9em', color: '#555' }}>
+              <strong>Added on:</strong> {podcast.addedOn ? formatDate(podcast.addedOn) : 'N/A'}
+            </p>
+
             <button onClick={() => handleRemoveFavorite(podcast.id)}>Remove from Favorites</button>
           </div>
         ))
@@ -94,6 +103,10 @@ const Favorites = () => {
 };
 
 export default Favorites;
+
+
+
+
 
 
 
