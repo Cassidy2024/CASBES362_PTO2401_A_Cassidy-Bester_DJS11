@@ -31,37 +31,36 @@ const PodcastDetails = ({ showAudioPlayer }) => {
   }, [id]);
 
   const handleEpisodeClick = (episode) => {
-    localStorage.setItem('currentEpisode', JSON.stringify(episode)); // Save episode data in localStorage
-    showAudioPlayer(episode); // Show audio player with the selected episode
+    localStorage.setItem('currentEpisode', JSON.stringify(episode));
+    showAudioPlayer(episode);
   };
 
-  const handleSaveEpisode = (episode) => {
-    // Get favorite episodes from localStorage, if any
+  // Save episode with show title and season number
+  const handleSaveEpisode = (episode, seasonNumber) => {
     const favoriteEpisodes = JSON.parse(localStorage.getItem('favoriteEpisodes')) || [];
-    
+
     // Check if episode is already in favorites
     const isEpisodeInFavorites = favoriteEpisodes.some(fav => fav.id === episode.id);
-    
+
     if (!isEpisodeInFavorites) {
-      // Add episode to favorites
-      favoriteEpisodes.push(episode);
+      const episodeWithDetails = {
+        ...episode,
+        showTitle: podcast.title,          // Add show title
+        seasonNumber: seasonNumber + 1,     // Add season number (adjusted to 1-based index)
+      };
+
+      favoriteEpisodes.push(episodeWithDetails);
       localStorage.setItem('favoriteEpisodes', JSON.stringify(favoriteEpisodes));
       alert(`Episode "${episode.title}" saved to favorites!`);
     } else {
       alert(`Episode "${episode.title}" is already in favorites.`);
     }
 
-    // Navigate to the FavoriteEpisodes page
-    navigate('/favorite-episodes');
+    navigate('/favorite-episodes'); // Navigate to FavoriteEpisodes page
   };
 
   const handleSeasonClick = (index) => {
-    // Toggle the selected season (expand or collapse)
-    if (selectedSeason === index) {
-      setSelectedSeason(null); // Collapse the season if it's already selected
-    } else {
-      setSelectedSeason(index); // Show episodes for the selected season
-    }
+    setSelectedSeason(selectedSeason === index ? null : index);
   };
 
   return (
@@ -74,14 +73,11 @@ const PodcastDetails = ({ showAudioPlayer }) => {
         podcast && (
           <div className="podcast-content">
             <h3 className="podcast-title">{podcast.title}</h3>
-            
-            {/* Display podcast preview image */}
             {podcast.image && (
               <div className="podcast-image-container">
                 <img src={podcast.image} alt={`${podcast.title} Preview`} className="podcast-image" />
               </div>
             )}
-            
             <p className="podcast-description">{podcast.description}</p>
             <h4 className="seasons-heading">Seasons and Episodes:</h4>
             {podcast.seasons && podcast.seasons.length > 0 ? (
@@ -112,7 +108,7 @@ const PodcastDetails = ({ showAudioPlayer }) => {
                               {/* Save Episode button */}
                               <button 
                                 className="save-episode-button" 
-                                onClick={() => handleSaveEpisode(episode)}
+                                onClick={() => handleSaveEpisode(episode, index)}
                               >
                                 Save Episode
                               </button>
@@ -137,6 +133,8 @@ const PodcastDetails = ({ showAudioPlayer }) => {
 };
 
 export default PodcastDetails;
+
+
 
 
 

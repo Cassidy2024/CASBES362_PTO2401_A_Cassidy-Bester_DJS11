@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import './index.css';
 
 const FavoriteEpisodes = () => {
   const [favoriteEpisodes, setFavoriteEpisodes] = useState([]);
 
   useEffect(() => {
-    // Fetch favorite episodes from localStorage
     const savedEpisodes = JSON.parse(localStorage.getItem('favoriteEpisodes')) || [];
     setFavoriteEpisodes(savedEpisodes);
   }, []);
 
   const handleRemoveFavorite = (episodeId) => {
-    // Remove the episode from favorites
     const updatedFavorites = favoriteEpisodes.filter(episode => episode.id !== episodeId);
     localStorage.setItem('favoriteEpisodes', JSON.stringify(updatedFavorites));
     setFavoriteEpisodes(updatedFavorites);
@@ -24,8 +21,12 @@ const FavoriteEpisodes = () => {
       {favoriteEpisodes.length > 0 ? (
         <ul>
           {favoriteEpisodes.map((episode) => (
-            <li key={episode.id}>
+            <li key={episode.id} className="favorite-episode-item">
               <strong>{episode.title}</strong> - {episode.description}
+              <div>
+                <p><em>Show:</em> {episode.showTitle}</p>
+                <p><em>Season:</em> {episode.seasonNumber}</p>
+              </div>
               <button onClick={() => handleRemoveFavorite(episode.id)}>Remove from Favorites</button>
             </li>
           ))}
@@ -38,3 +39,4 @@ const FavoriteEpisodes = () => {
 };
 
 export default FavoriteEpisodes;
+
