@@ -35,38 +35,29 @@ const PodcastDetails = ({ showAudioPlayer }) => {
     showAudioPlayer(episode);
   };
 
-  // Refined Save Episode logic with unique identifier for duplicate checks
   const handleSaveEpisode = (episode, seasonNumber) => {
     const favoriteEpisodes = JSON.parse(localStorage.getItem('favoriteEpisodes')) || [];
-
-    // Create a unique identifier using show title, season number, and episode id
     const uniqueEpisodeId = `${podcast.title}-${seasonNumber + 1}-${episode.id}`;
-
-    // Check if the episode with this unique identifier already exists in favorites
     const isEpisodeInFavorites = favoriteEpisodes.some(fav => fav.uniqueEpisodeId === uniqueEpisodeId);
 
     if (!isEpisodeInFavorites) {
       const currentDate = new Date();
-      const addedOn = currentDate.toLocaleString(); // Save date and time in a readable format
-
+      const addedOn = currentDate.toLocaleString();
       const episodeWithDetails = {
         ...episode,
-        uniqueEpisodeId,                    // Add unique identifier for duplicate checks
-        showTitle: podcast.title,           // Add show title
-        seasonNumber: seasonNumber + 1,     // Adjusted to 1-based index
-        addedOn,                            // Add 'added on' timestamp
+        uniqueEpisodeId,
+        showTitle: podcast.title,
+        seasonNumber: seasonNumber + 1,
+        addedOn,
       };
-
       favoriteEpisodes.push(episodeWithDetails);
       localStorage.setItem('favoriteEpisodes', JSON.stringify(favoriteEpisodes));
-
-      console.log("Updated favoriteEpisodes in localStorage:", JSON.parse(localStorage.getItem('favoriteEpisodes')));
       alert(`Episode "${episode.title}" saved to favorites!`);
     } else {
       alert(`Episode "${episode.title}" is already in favorites.`);
     }
 
-    navigate('/favorite-episodes'); // Navigate to FavoriteEpisodes page
+    navigate('/favorite-episodes');
   };
 
   const handleSeasonClick = (index) => {
@@ -97,7 +88,7 @@ const PodcastDetails = ({ showAudioPlayer }) => {
                     className="season-title" 
                     onClick={() => handleSeasonClick(index)}
                   >
-                    Season {index + 1}
+                    Season {index + 1} (episodes:{season.episodes.length})
                   </h5>
                   {selectedSeason === index && (
                     <div className="season-episodes">
@@ -106,16 +97,12 @@ const PodcastDetails = ({ showAudioPlayer }) => {
                           season.episodes.map((episode) => (
                             <li key={episode.id}>
                               <strong>{episode.title}</strong>: {episode.description}
-                              
-                              {/* Play Episode button */}
                               <button 
                                 className="play-episode-button" 
                                 onClick={() => handleEpisodeClick(episode)}
                               >
                                 Play Episode
                               </button>
-
-                              {/* Save Episode button */}
                               <button 
                                 className="save-episode-button" 
                                 onClick={() => handleSaveEpisode(episode, index)}
@@ -143,6 +130,7 @@ const PodcastDetails = ({ showAudioPlayer }) => {
 };
 
 export default PodcastDetails;
+
 
 
 
