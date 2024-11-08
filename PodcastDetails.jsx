@@ -37,12 +37,17 @@ const PodcastDetails = ({ showAudioPlayer }) => {
 
   const handleSaveEpisode = (episode, seasonNumber) => {
     const favoriteEpisodes = JSON.parse(localStorage.getItem('favoriteEpisodes')) || [];
-    const uniqueEpisodeId = `${podcast.title}-${seasonNumber + 1}-${episode.id}`;
+    
+    // Generate a more distinct unique identifier for each episode
+    const uniqueEpisodeId = `${podcast.title}-${seasonNumber + 1}-${episode.id}-${episode.title}`;
+    
+    // Check if the episode is already in favorites
     const isEpisodeInFavorites = favoriteEpisodes.some(fav => fav.uniqueEpisodeId === uniqueEpisodeId);
 
     if (!isEpisodeInFavorites) {
       const currentDate = new Date();
       const addedOn = currentDate.toLocaleString();
+      
       const episodeWithDetails = {
         ...episode,
         uniqueEpisodeId,
@@ -50,6 +55,7 @@ const PodcastDetails = ({ showAudioPlayer }) => {
         seasonNumber: seasonNumber + 1,
         addedOn,
       };
+      
       favoriteEpisodes.push(episodeWithDetails);
       localStorage.setItem('favoriteEpisodes', JSON.stringify(favoriteEpisodes));
       alert(`Episode "${episode.title}" saved to favorites!`);
@@ -88,7 +94,7 @@ const PodcastDetails = ({ showAudioPlayer }) => {
                     className="season-title" 
                     onClick={() => handleSeasonClick(index)}
                   >
-                    Season {index + 1} (episodes:{season.episodes.length})
+                    Season {index + 1} (episodes: {season.episodes.length})
                   </h5>
                   {selectedSeason === index && (
                     <div className="season-episodes">
@@ -130,6 +136,8 @@ const PodcastDetails = ({ showAudioPlayer }) => {
 };
 
 export default PodcastDetails;
+
+
 
 
 
