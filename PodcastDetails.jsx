@@ -35,7 +35,7 @@ const PodcastDetails = ({ showAudioPlayer }) => {
     showAudioPlayer(episode);
   };
 
-  // Save episode with show title and season number
+  // Save episode with show title, season number, and added date
   const handleSaveEpisode = (episode, seasonNumber) => {
     const favoriteEpisodes = JSON.parse(localStorage.getItem('favoriteEpisodes')) || [];
 
@@ -43,16 +43,19 @@ const PodcastDetails = ({ showAudioPlayer }) => {
     const isEpisodeInFavorites = favoriteEpisodes.some(fav => fav.id === episode.id);
 
     if (!isEpisodeInFavorites) {
+      const currentDate = new Date();
+      const addedOn = currentDate.toLocaleString(); // Save date and time in a readable format
+
       const episodeWithDetails = {
         ...episode,
         showTitle: podcast.title,          // Add show title
         seasonNumber: seasonNumber + 1,     // Add season number (adjusted to 1-based index)
+        addedOn,                            // Add the 'added on' timestamp
       };
 
       favoriteEpisodes.push(episodeWithDetails);
       localStorage.setItem('favoriteEpisodes', JSON.stringify(favoriteEpisodes));
 
-      // Check localStorage to confirm that episodes are being saved correctly
       console.log("Updated favoriteEpisodes in localStorage:", JSON.parse(localStorage.getItem('favoriteEpisodes')));
       alert(`Episode "${episode.title}" saved to favorites!`);
     } else {
@@ -136,6 +139,7 @@ const PodcastDetails = ({ showAudioPlayer }) => {
 };
 
 export default PodcastDetails;
+
 
 
 

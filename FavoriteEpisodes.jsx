@@ -36,6 +36,7 @@ const FavoriteEpisodes = () => {
               <div>
                 <p><em>Show:</em> {episode.showTitle}</p>
                 <p><em>Season:</em> {episode.seasonNumber}</p>
+                <p><em>Added on:</em> {episode.addedOn}</p> {/* Display 'added on' date and time */}
               </div>
               <button onClick={() => handlePlayEpisode(episode)}>Play Episode</button>
               <button onClick={() => handleRemoveFavorite(episode.id)}>Remove from Favorites</button>
@@ -55,6 +56,7 @@ const FavoriteEpisodes = () => {
 };
 
 export default FavoriteEpisodes;
+
 
 
 
