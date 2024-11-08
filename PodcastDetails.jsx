@@ -35,12 +35,15 @@ const PodcastDetails = ({ showAudioPlayer }) => {
     showAudioPlayer(episode);
   };
 
-  // Save episode with show title, season number, and added date
+  // Refined Save Episode logic with unique identifier for duplicate checks
   const handleSaveEpisode = (episode, seasonNumber) => {
     const favoriteEpisodes = JSON.parse(localStorage.getItem('favoriteEpisodes')) || [];
 
-    // Check if episode is already in favorites
-    const isEpisodeInFavorites = favoriteEpisodes.some(fav => fav.id === episode.id);
+    // Create a unique identifier using show title, season number, and episode id
+    const uniqueEpisodeId = `${podcast.title}-${seasonNumber + 1}-${episode.id}`;
+
+    // Check if the episode with this unique identifier already exists in favorites
+    const isEpisodeInFavorites = favoriteEpisodes.some(fav => fav.uniqueEpisodeId === uniqueEpisodeId);
 
     if (!isEpisodeInFavorites) {
       const currentDate = new Date();
@@ -48,9 +51,10 @@ const PodcastDetails = ({ showAudioPlayer }) => {
 
       const episodeWithDetails = {
         ...episode,
-        showTitle: podcast.title,          // Add show title
-        seasonNumber: seasonNumber + 1,     // Add season number (adjusted to 1-based index)
-        addedOn,                            // Add the 'added on' timestamp
+        uniqueEpisodeId,                    // Add unique identifier for duplicate checks
+        showTitle: podcast.title,           // Add show title
+        seasonNumber: seasonNumber + 1,     // Adjusted to 1-based index
+        addedOn,                            // Add 'added on' timestamp
       };
 
       favoriteEpisodes.push(episodeWithDetails);
@@ -139,6 +143,9 @@ const PodcastDetails = ({ showAudioPlayer }) => {
 };
 
 export default PodcastDetails;
+
+
+
 
 
 
