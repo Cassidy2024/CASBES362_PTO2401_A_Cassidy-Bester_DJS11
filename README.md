@@ -1,8 +1,16 @@
-# React + Vite
+# Let's talk podcast 
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This podcast app allows users to browse many podcast shows that are displayed on the main page, called from the podcast api. The project includes navigation buttons to navigate between pages, allows for svaing of shows and data, an audio interface that remembers where the user last left off as well as sorting filters to help find what you need easier. to check out the app just click this link:
+this app is responsive across multiple screensizes which makes it easier for everyone to enjoy.
 
-Currently, two official plugins are available:
+# Running the project in Visual Studio Code 
+to run this app in VS code just copy this repository into your Visual Studio Code run "npm start dev" in your terminal and click the link.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# Technologies used 
+This project simply uses react.
+
+This project makes use of HTML, CSS and React with Javascript.
+
+
+
+
