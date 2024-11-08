@@ -83,7 +83,7 @@ const Audio = ({ onClose }) => {
         Your browser does not support the audio element.
       </audio>
 
-      {/* Confirmation Prompt */}
+      
       {showConfirmation && (
         <div style={confirmationStyle}>
           <p>Are you sure you want to close the audio player?</p>

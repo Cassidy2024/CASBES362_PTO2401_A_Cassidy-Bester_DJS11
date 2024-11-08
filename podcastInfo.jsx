@@ -168,9 +168,9 @@ const PodcastImage = () => {
                     )}
                   </div>
 
-                  {/* Genre subtitle added here */}
+                  
                   <div className="podcast-genre">
-                    <strong>Genre: </strong>{getGenreTitle(post.genres[0])} {/* Assuming a single genre per post */}
+                    <strong>Genre: </strong>{getGenreTitle(post.genres[0])} 
                   </div>
 
                  

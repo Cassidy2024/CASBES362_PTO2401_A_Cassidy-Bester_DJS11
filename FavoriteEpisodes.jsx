@@ -7,7 +7,7 @@ const FavoriteEpisodes = () => {
   const [favoriteEpisodes, setFavoriteEpisodes] = useState([]);
   const [selectedEpisode, setSelectedEpisode] = useState(null);
   const [sortOrder, setSortOrder] = useState('A-Z'); // Default to A-Z sort
-  const [notification, setNotification] = useState(''); // For showing messages
+  const [notification, setNotification] = useState(''); 
 
   const navigate = useNavigate();
 
@@ -37,8 +37,8 @@ const FavoriteEpisodes = () => {
 
     const updatedEpisode = {
       ...episode,
-      uniqueEpisodeId,  // Add unique identifier for duplicate checks
-      addedOn,           // Add 'added on' timestamp
+      uniqueEpisodeId,  
+      addedOn,           
     };
 
     const updatedFavorites = [...favoriteEpisodes, updatedEpisode];
@@ -77,15 +77,15 @@ const FavoriteEpisodes = () => {
     let sortedEpisodes;
 
     if (order === 'A-Z' || order === 'Z-A') {
-      // Sort alphabetically by title
+      
       sortedEpisodes = [...favoriteEpisodes].sort((a, b) => {
         return order === 'A-Z' ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title);
       });
     } else if (order === 'Newest') {
-      // Sort by the most recently added episodes
+      
       sortedEpisodes = [...favoriteEpisodes].sort((a, b) => new Date(b.addedOn) - new Date(a.addedOn));
     } else if (order === 'Oldest') {
-      // Sort by the least recently added episodes
+      
       sortedEpisodes = [...favoriteEpisodes].sort((a, b) => new Date(a.addedOn) - new Date(b.addedOn));
     }
 

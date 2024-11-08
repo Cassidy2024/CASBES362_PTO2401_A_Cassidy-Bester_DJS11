@@ -1,4 +1,4 @@
-/* Reset some default browser styles */
+
 * {
   margin: 0;
   padding: 0;
@@ -87,7 +87,7 @@ header {
   width: 100%; /* Stretch header across full width */
   padding: 15px;
   background-color: #f5f5f5;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Adds a subtle shadow */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
 }
 
 header img {
@@ -124,9 +124,9 @@ header .container {
     height: auto;
   }
 
-  /* Add padding to the left of sort features on large screens */
+  
   label, select, input {
-    padding-left: 20px; /* Adds left padding */
+    padding-left: 20px; 
   }
 }
 
@@ -267,7 +267,7 @@ header .container {
   background-color: #ccc;
 }
 
-/* Responsive Styles */
+
 @media (max-width: 768px) {
   .podcast-grid {
     grid-template-columns: repeat(2, 1fr); /* 2 columns for medium screens */
@@ -283,43 +283,43 @@ header .container {
   .sort-filters {
     display: flex;
     flex-direction: column;
-    gap: 10px; /* Adds space between each filter */
-    align-items: flex-start; /* Aligns items to the left */
+    gap: 10px; 
+    align-items: flex-start; 
   }
 }
 
 .podcast-description {
-  margin-bottom: 20px; /* Add space after the description */
+  margin-bottom: 20px; 
   padding: 10px;
 }
 
 .seasons-heading {
-  margin-top: 20px; /* Space above "Seasons and Episodes" heading */
+  margin-top: 20px; 
   margin-bottom: 20px;
   padding: 10px;
 }
 
 .season-item {
-  margin-bottom: 15px; /* Space between different seasons */
+  margin-bottom: 15px; 
   padding: 10px;
 }
 
 .season-title {
-  margin-bottom: 10px; /* Space between season title and episodes */
+  margin-bottom: 10px; 
 }
 
 .season-episodes ul {
-  padding-left: 20px; /* Add padding for list items */
+  padding-left: 20px; 
 }
 
 .season-episodes li {
-  margin-bottom: 10px; /* Space between list items (episodes) */
+  margin-bottom: 10px; 
 }
 
 .favorite-item {
-  margin-bottom: 20px; /* Adjust this value to increase/decrease space between shows */
-  padding: 10px; /* Optional: add padding to the container for better spacing */
-  border-bottom: 1px solid #eee; /* Optional: add a border for visual separation */
+  margin-bottom: 20px; 
+  padding: 10px; 
+  border-bottom: 1px solid #eee; 
 }
 
 
@@ -398,7 +398,7 @@ header .container {
   margin-top: 20px;
 }
 
-/* Box styling for each favorite item */
+
 .favorite-item {
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -431,7 +431,7 @@ header .container {
   margin: 10px 0;
 }
 
-/* Styling for the updated date next to the title */
+
 .updated-date {
   font-size: 0.9em;
   color: #777;
@@ -463,28 +463,28 @@ header .container {
 .podcast-image-container {
   display: flex;
   justify-content: center;
-  align-items: center; /* Vertically center the image */
+  align-items: center; 
   margin: 20px 0;
-  width: 100%; /* Allow the container to take the full width */
-  max-width: 800px; /* Increase max-width to give more space */
-  height: 500px; /* Set a specific height for the container */
-  background-color: white; /* Set background color to white */
-  padding: 20px; /* Add padding if needed */
-  border-radius: 8px; /* Optional: for rounded corners */
-  overflow: hidden; /* Prevent overflow if the image is too large */
+  width: 100%; 
+  max-width: 800px; 
+  height: 500px; 
+  background-color: white; 
+  padding: 20px; 
+  border-radius: 8px; 
+  overflow: hidden; 
 }
 
 .podcast-image {
   width: 100%;
-  height: 100%; /* Ensure the image fills the container's height */
+  height: 100%; 
   object-fit: contain; /* Maintain aspect ratio without stretching */
-  border-radius: 8px; /* Optional: for rounded corners */
+  border-radius: 8px; 
 }
 
 
 
 
-/* Other styles */
+
 .podcast-content {
   text-align: center;
   max-width: 800px;
@@ -527,17 +527,17 @@ header .container {
 }
 
 .season-episodes li {
-  border: 1px solid #ccc; /* Border around each episode */
-  padding: 15px 15px 50px 15px; /* Increased bottom padding (from 40px to 50px) */
-  margin: 15px 0; /* Spacing between episodes */
-  border-radius: 8px; /* Optional: rounded corners */
-  background-color: #f9f9f9; /* Light background color */
-  position: relative; /* To position the button relative to the episode box */
-  transition: background-color 0.3s ease; /* Smooth transition on hover */
+  border: 1px solid #ccc; 
+  padding: 15px 15px 50px 15px; 
+  margin: 15px 0;
+  border-radius: 8px; 
+  background-color: #f9f9f9; 
+  position: relative; 
+  transition: background-color 0.3s ease; 
 }
 
 .season-episodes li:hover {
-  background-color: #eaeaea; /* Change background color on hover */
+  background-color: #eaeaea; 
 }
 
 /* Styling the episode title and description */
@@ -546,10 +546,6 @@ header .container {
   display: block;
   margin-bottom: 5px;
 }
-
-/* Position the button at the bottom right of the episode box */
-
-
 
 .favorites-container {
   padding: 20px;
@@ -565,23 +561,23 @@ header .container {
   margin-right: 15px;
 }
 
-/* Make sure the sorting filters display on the same line for larger screens */
+
 .favorites-container select {
   display: inline-block;
 }
 
 /* Media query for small screens */
 @media (max-width: 600px) {
-  /* Stack the filters vertically on small screens */
+  
   .favorites-container select {
     display: block;
-    width: 100%; /* Make the select elements full width */
-    margin-bottom: 10px; /* Add spacing between them */
+    width: 100%; 
+    margin-bottom: 10px; 
   }
 
   .favorites-container label {
-    display: block; /* Make the labels display above the selects */
-    margin-bottom: 5px; /* Add spacing between label and select */
+    display: block; 
+    margin-bottom: 5px; 
   }
 }
 
@@ -595,8 +591,8 @@ header .container {
 
 
 .season-item {
-  position: relative; /* This allows absolute positioning inside this block */
-  padding-bottom: 50px; /* To ensure there's space for the buttons at the bottom */
+  position: relative; 
+  padding-bottom: 50px; 
 }
 
 .play-episode-button,
@@ -616,33 +612,33 @@ header .container {
 }
 
 .save-episode-button {
-  background-color: #28a745;  /* Green for Save button */
+  background-color: #28a745;  /
 }
 
 .save-episode-button:hover {
   background-color: #218838;
 }
 
-/* Position the Play Episode button in the bottom-right corner */
+
 .play-episode-button {
-  right: 10px;  /* Position the button 10px from the right */
-  bottom: 10px;  /* Position the button 10px from the bottom */
+  right: 10px;  
+  bottom: 10px;  
 }
 
-/* Position the Save Episode button in the bottom-left corner */
+
 .save-episode-button {
-  left: 10px;   /* Position the button 10px from the left */
-  bottom: 10px;  /* Position the button 10px from the bottom */
+  left: 10px;   
+  bottom: 10px;  
 }
 
-/* Add spacing between each favorite episode item */
+
 .favorite-episode-item {
-  margin-bottom: 20px; /* Space between episodes */
+  margin-bottom: 20px; 
   padding: 15px;
   border: 1px solid #ddd; /* Light gray border */
-  border-radius: 8px; /* Rounded corners */
-  background-color: #f9f9f9; /* Light background color */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+  border-radius: 8px; 
+  background-color: #f9f9f9; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
 }
 
 /* Style for the episode content */
@@ -655,12 +651,12 @@ header .container {
   margin-top: 10px;
 }
 
-/* Add spacing around the buttons */
+
 .favorite-episode-item button {
   margin-top: 10px;
   padding: 8px 15px;
   border: none;
-  background-color: magenta; /* Button color */
+  background-color: magenta; 
   color: white;
   font-size: 1rem;
   border-radius: 4px;
