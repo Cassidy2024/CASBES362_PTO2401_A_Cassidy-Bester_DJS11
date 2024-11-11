@@ -5,7 +5,7 @@ const Audio = ({ episode: propEpisode, onClose }) => {
   const location = useLocation();
   const episode = propEpisode || location.state?.episode || JSON.parse(localStorage.getItem('currentEpisode'));
   const audioRef = useRef(null);
-  const [currentTime, setCurrentTime] = useState(0);
+  const [currentTime, setCurrentTime] = useState(0);  
   const [showConfirmation, setShowConfirmation] = useState(false);
 
   useEffect(() => {
@@ -20,10 +20,10 @@ const Audio = ({ episode: propEpisode, onClose }) => {
 
   useEffect(() => {
     if (audioRef.current) {
-      audioRef.current.currentTime = currentTime;
+      audioRef.current.currentTime = currentTime; //ensures audio plays back from the time the user clicked stopped listening  
       audioRef.current.play().catch((error) => console.error("Autoplay prevented:", error));
     }
-  }, [currentTime]);
+  }, [currentTime]); 
 
   useEffect(() => {
     const saveTimeInterval = setInterval(() => {
