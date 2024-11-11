@@ -1,22 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-const Audio = ({ onClose }) => {
+const Audio = ({ episode: propEpisode, onClose }) => {
   const location = useLocation();
-  const episode = location.state?.episode || JSON.parse(localStorage.getItem('currentEpisode'));
+  const episode = propEpisode || location.state?.episode || JSON.parse(localStorage.getItem('currentEpisode'));
   const audioRef = useRef(null);
   const [currentTime, setCurrentTime] = useState(0);
-  const [showConfirmation, setShowConfirmation] = useState(false); // State to handle confirmation prompt
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
   useEffect(() => {
     if (episode) {
       localStorage.setItem('currentEpisode', JSON.stringify(episode));
-      setCurrentTime(localStorage.getItem(`audio-timestamp-${episode.id}`) || 0);
-    }
-  }, [episode]);
-
-  useEffect(() => {
-    if (episode) {
       const savedTime = localStorage.getItem(`audio-timestamp-${episode.id}`);
       if (savedTime) {
         setCurrentTime(parseFloat(savedTime));
@@ -25,8 +19,15 @@ const Audio = ({ onClose }) => {
   }, [episode]);
 
   useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = currentTime;
+      audioRef.current.play().catch((error) => console.error("Autoplay prevented:", error));
+    }
+  }, [currentTime]);
+
+  useEffect(() => {
     const saveTimeInterval = setInterval(() => {
-      if (audioRef.current) {
+      if (audioRef.current && episode) {
         localStorage.setItem(`audio-timestamp-${episode.id}`, audioRef.current.currentTime);
       }
     }, 10000);
@@ -34,41 +35,30 @@ const Audio = ({ onClose }) => {
     return () => clearInterval(saveTimeInterval);
   }, [episode]);
 
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.currentTime = currentTime;
-      audioRef.current.play().catch(error => console.error("Autoplay prevented:", error));
-    }
-  }, [currentTime]);
-
   const handleCanPlay = () => {
     if (audioRef.current) {
-      audioRef.current.play().catch(error => console.error("Play prevented:", error));
+      audioRef.current.play().catch((error) => console.error("Play prevented:", error));
     }
   };
 
   const handleCloseClick = () => {
-    setShowConfirmation(true); // Show the confirmation prompt
+    setShowConfirmation(true);
   };
 
   const confirmClose = () => {
-    onClose();
-    localStorage.removeItem('currentEpisode');
+    if (onClose) onClose();
     setShowConfirmation(false);
   };
 
   const cancelClose = () => {
-    setShowConfirmation(false); // Hide the confirmation prompt
+    setShowConfirmation(false);
   };
 
   return episode ? (
     <div style={audioContainerStyle}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <h4>Now Playing: {episode.title}</h4>
-        <button
-          onClick={handleCloseClick}
-          style={{ fontSize: '1.2rem', background: 'none', border: 'none', cursor: 'pointer' }}
-        >
+        <button onClick={handleCloseClick} style={{ fontSize: '1.2rem', background: 'none', border: 'none', cursor: 'pointer' }}>
           ×
         </button>
       </div>
@@ -78,12 +68,10 @@ const Audio = ({ onClose }) => {
         controls
         src={episode.file || "https://podcast-api.netlify.app/placeholder-audio.mp3"}
         onCanPlay={handleCanPlay}
-        onEnded={() => console.log("Audio playback ended")}
       >
         Your browser does not support the audio element.
       </audio>
 
-      
       {showConfirmation && (
         <div style={confirmationStyle}>
           <p>Are you sure you want to close the audio player?</p>
@@ -120,6 +108,8 @@ const confirmationStyle = {
 };
 
 export default Audio;
+
+
 
 
 
