@@ -656,7 +656,7 @@ header .container {
   margin-top: 10px;
   padding: 8px 15px;
   border: none;
-  background-color: magenta; 
+  background-color: red; 
   color: white;
   font-size: 1rem;
   border-radius: 4px;
@@ -665,7 +665,7 @@ header .container {
 }
 
 .favorite-episode-item button:hover {
-  background-color: darkmagenta; /* Darker shade on hover */
+  background-color: darkred; /* Darker shade on hover */
 }
 
 /* Notification styling */
